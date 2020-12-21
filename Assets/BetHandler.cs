@@ -95,6 +95,4 @@ public class BetHandler : MonoBehaviour, IRefreshable
     {
         PointsCalculator.OnPointCalculated -= SetWinTextValue;
     }
-
-
 }

@@ -47,6 +47,7 @@ public class SlotsLogic : MonoBehaviour
             individualReel.SetOriginSlotPosition();
         }
         _isPlaying = false;
+        //callback for calculator
         CalculateWin?.Invoke();
     }
 

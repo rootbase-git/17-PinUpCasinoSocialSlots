@@ -4,7 +4,7 @@ using UnityEngine;
 public class Balance : MonoBehaviour, IRefreshable, IWallet
 {
     public TMP_Text currentBalanceUI;
-    public int CurrentBalance { get; set;}
+    public int CurrentBalance { get; private set;}
     private const string BalanceKey = "Balance";
     private const int DefaultBalance = 20;
 
@@ -12,7 +12,7 @@ public class Balance : MonoBehaviour, IRefreshable, IWallet
     {
         //store default balance data or load existing
         CurrentBalance = PlayerPrefs.HasKey(BalanceKey) ? PlayerPrefs.GetInt(BalanceKey) : DefaultBalance;
-        CurrentBalance = 20;
+        //CurrentBalance = 20;
         RefreshUi(CurrentBalance);
     }
 
