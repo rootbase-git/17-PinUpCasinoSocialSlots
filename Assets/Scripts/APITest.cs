@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Globalization;
 using TMPro;
 using UnityEngine;
 public class APITest : MonoBehaviour
 {
     public TMP_Text apiInfo;
     public TMP_Text timeFromStartUp;
+    private const string JsonExample = "{\"userId\": 1,\"id\": 1,\"title\": \"delectus aut autem\",\"completed\": false}";
+
     private void Awake()
     {
-        apiInfo.SetText("Application name is  " + 
-                        Application.productName + " with identifier  " + Application.identifier 
-                        +" saved in "+ Application.dataPath +" and made in Unity "+ Application.unityVersion);
+        var userInfo = JsonUtility.FromJson<UserInfo>(JsonExample);
+        apiInfo.SetText("UserID: " + userInfo.userId +  "\n Title: "+ userInfo.title + "\n Completed: " + userInfo.isCompleted);
     }
 
     private void TimeSinceStartup()
@@ -24,4 +24,13 @@ public class APITest : MonoBehaviour
     {
         TimeSinceStartup();
     }
+}
+
+[Serializable]
+public class UserInfo
+{
+    public int userId;
+    public int id;
+    public string title;
+    public bool isCompleted;
 }

@@ -1,21 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+using Random = UnityEngine.Random;
+
 public class Reel : MonoBehaviour {
  
     public bool isSpinning;
+    public static Action<GameObject> OnCenterRowStop;
+    //public static Action<SlotElement> TriggerAnimation;
  
     [SerializeField] private int speed;
     private const float LowerSlotBound = -300; 
-    private const float UpperSlotBound = 600;
-  
+    private const float ResetSlotYValue = 600;
+    private const int ZeroValue = 0;
+    
     private void Awake()
     {
         isSpinning = false;
         speed = Random.Range(2500,3000);
     }
- 
+
     private void Update()
     {
         if (!isSpinning) return;
@@ -28,32 +33,37 @@ public class Reel : MonoBehaviour {
  
             //reset image position
             if (rectTransform.anchoredPosition.y <= LowerSlotBound)
-                rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + UpperSlotBound);
+                rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + ResetSlotYValue);
         }
     }
 
     public void SetOriginSlotPosition()
     {
-        //default slots position
-        var parts = new List<int>
-        {
-            200,
-            100,
-            0,
-            -100,
-            -200,
-            -300
-        };
+        var defaultSlotsPosition = new List<int>
+            {
+                200,
+                100,
+                0,
+                -100,
+                -200,
+                -300
+            };
 
         //set random original position 
         foreach (RectTransform image in transform)
         {
-            var rand = Random.Range(0, parts.Count);
+            var rand = Random.Range(ZeroValue, defaultSlotsPosition.Count);
             
             var anchoredPosition = image.GetComponent<RectTransform>().anchoredPosition;
-            image.GetComponent<RectTransform>().anchoredPosition = new Vector3(anchoredPosition.x, parts[rand]);
- 
-            parts.RemoveAt(rand);
+            image.GetComponent<RectTransform>().anchoredPosition = new Vector3(anchoredPosition.x, defaultSlotsPosition[rand]);
+            
+            if (defaultSlotsPosition[rand] == ZeroValue)
+            {
+                OnCenterRowStop?.Invoke(image.gameObject);
+                //TriggerAnimation?.Invoke(image.GetComponent<SlotElement>());
+            }
+            
+            defaultSlotsPosition.RemoveAt(rand);
         }
     }
 }

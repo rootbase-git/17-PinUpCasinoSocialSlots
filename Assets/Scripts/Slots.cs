@@ -1,32 +1,39 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
- 
+using Random = UnityEngine.Random;
+
 public class Slots : MonoBehaviour {
  
     public Reel[] reel;
+    
     private bool _isPlaying;
+    public static Action CalculateWin;
  
     private void Awake ()
     {
         _isPlaying = false;
     }
-     
+#if UNITY_EDITOR     
     private void Update ()
     {
-#if UNITY_EDITOR
         if (_isPlaying) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartSpinning();
         }
-#endif
     }
- 
+#endif
     private IEnumerator Spinning()
     {
         _isPlaying = true;
         foreach (var individualReel in reel)
         {
+            if (individualReel == null)
+            {
+                Debug.LogError("Some reels are not assigned");
+                yield break;
+            }
             //all reels start spinning
             individualReel.isSpinning = true;
         }
@@ -40,6 +47,7 @@ public class Slots : MonoBehaviour {
             individualReel.SetOriginSlotPosition();
         }
         _isPlaying = false;
+        CalculateWin?.Invoke();
     }
 
     public void StartSpinning()
