@@ -8,7 +8,6 @@ public class Reel : MonoBehaviour {
  
     public bool isSpinning;
     public static Action<GameObject> OnCenterRowStop;
-    //public static Action<SlotElement> TriggerAnimation;
  
     [SerializeField] private int speed;
     private const float LowerSlotBound = -300; 
@@ -60,7 +59,6 @@ public class Reel : MonoBehaviour {
             if (defaultSlotsPosition[rand] == ZeroValue)
             {
                 OnCenterRowStop?.Invoke(image.gameObject);
-                //TriggerAnimation?.Invoke(image.GetComponent<SlotElement>());
             }
             
             defaultSlotsPosition.RemoveAt(rand);

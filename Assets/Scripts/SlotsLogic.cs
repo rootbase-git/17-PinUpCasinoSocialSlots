@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Slots : MonoBehaviour {
- 
+public class SlotsLogic : MonoBehaviour 
+{
     public Reel[] reel;
     
     private bool _isPlaying;

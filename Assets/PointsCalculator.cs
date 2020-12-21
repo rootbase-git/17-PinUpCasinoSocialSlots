@@ -8,8 +8,11 @@ public class PointsCalculator : MonoBehaviour, IHashTableUpdate<GameObject>
     public static Action<int> OnPointCalculated;
     public static Action<Dictionary<SlotElement, GameObject>> TriggerAnimation;
     
+    //use spinPart=(same instance) to assign similar slots
     private Dictionary<SpinPart, int> _slotElementsInfo = new Dictionary<SpinPart, int>();
+    //use SlotElement=(different instances) to assign All slots with
     private Dictionary<SlotElement, GameObject> _pairedElements = new Dictionary<SlotElement, GameObject>();
+    //List<KeyValuePair<T1,T2>>
     [SerializeField] private int _winPoints;
     [SerializeField] private int _bet = 0;
 
@@ -66,12 +69,12 @@ public class PointsCalculator : MonoBehaviour, IHashTableUpdate<GameObject>
     {
         BetHandler.OnBetMade += SetBet;
         Reel.OnCenterRowStop += UpdateHashTableInfo;
-        Slots.CalculateWin += CalculatePoints;
+        SlotsLogic.CalculateWin += CalculatePoints;
     }
     private void OnDisable()
     {
         BetHandler.OnBetMade -= SetBet;
         Reel.OnCenterRowStop -= UpdateHashTableInfo;
-        Slots.CalculateWin -= CalculatePoints;
+        SlotsLogic.CalculateWin -= CalculatePoints;
     }
 }
