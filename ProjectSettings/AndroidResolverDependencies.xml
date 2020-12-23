@@ -13,9 +13,11 @@
     <setting name="bundleId" value="com.FurionTheGreatest.Slots" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradlePropertiesTemplateEnabled" value="False" />
     <setting name="gradleTemplateEnabled" value="True" />
     <setting name="installAndroidPackages" value="True" />
-    <setting name="packageDir" value="Assets\Plugins\Android" />
+    <setting name="localMavenRepoDir" value="Assets/GeneratedLocalRepo" />
+    <setting name="packageDir" value="Assets/Plugins/Android" />
     <setting name="patchAndroidManifest" value="True" />
     <setting name="patchMainTemplateGradle" value="True" />
     <setting name="projectExportEnabled" value="False" />
