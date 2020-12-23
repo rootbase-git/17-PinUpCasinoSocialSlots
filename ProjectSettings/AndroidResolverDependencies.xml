@@ -1,0 +1,24 @@
+<dependencies>
+  <packages>
+    <package>com.android.support:cardview-v7:[26.0.0, 27.2.0[</package>
+    <package>com.android.support:customtabs:[26.0.0, 27.2.0[</package>
+    <package>com.android.support:support-v4:[26.0.0, 27.2.0[</package>
+    <package>com.google.android.gms:play-services-base:[10.2.1, 12.1.0[</package>
+    <package>com.google.android.gms:play-services-location:[10.2.1, 12.1.0[</package>
+    <package>com.google.firebase:firebase-messaging:[10.2.1, 12.1.0[</package>
+  </packages>
+  <files />
+  <settings>
+    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="bundleId" value="com.FurionTheGreatest.Slots" />
+    <setting name="explodeAars" value="True" />
+    <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradleTemplateEnabled" value="True" />
+    <setting name="installAndroidPackages" value="True" />
+    <setting name="packageDir" value="Assets\Plugins\Android" />
+    <setting name="patchAndroidManifest" value="True" />
+    <setting name="patchMainTemplateGradle" value="True" />
+    <setting name="projectExportEnabled" value="False" />
+    <setting name="useJetifier" value="True" />
+  </settings>
+</dependencies>
