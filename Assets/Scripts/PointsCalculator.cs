@@ -9,9 +9,9 @@ public class PointsCalculator : MonoBehaviour, IHashTableUpdate<GameObject>
     public static Action<List<KeyValuePair<string, GameObject>>> TriggerAnimation;
     
     //use spinPart=(same instance) to assign similar slots
-    private Dictionary<SpinPart, int> _slotElementsInfo = new Dictionary<SpinPart, int>();
+    private Dictionary<SpinPart, int> _centeredSlotElementsInfo = new Dictionary<SpinPart, int>();
     //store all pairs of middle row
-    private List<KeyValuePair<string,GameObject>> _pairs = new List<KeyValuePair<string, GameObject>>();
+    private List<KeyValuePair<string,GameObject>> _pairedSlots = new List<KeyValuePair<string, GameObject>>();
     
     [SerializeField] private int _winPoints;
     [SerializeField] private int _bet = 0;
@@ -19,51 +19,51 @@ public class PointsCalculator : MonoBehaviour, IHashTableUpdate<GameObject>
     public void UpdateHashTableInfo(GameObject centerSpinElement)
     {
         var slotElementKey = centerSpinElement.GetComponent<SlotElement>();
-        if (_slotElementsInfo.ContainsKey(slotElementKey.spinPartInfo))
+        if (_centeredSlotElementsInfo.ContainsKey(slotElementKey.spinPartInfo))
         {
-            _slotElementsInfo[slotElementKey.spinPartInfo] += 1;
+            _centeredSlotElementsInfo[slotElementKey.spinPartInfo] += 1;
         }
         else
         {
-            _slotElementsInfo.Add(slotElementKey.spinPartInfo, 1);
+            _centeredSlotElementsInfo.Add(slotElementKey.spinPartInfo, 1);
         }
-        //add all elements to pairs, then sort after calculation
-        _pairs.Add(new KeyValuePair<string, GameObject>(slotElementKey.spinPartInfo.name,centerSpinElement));
+        //add all elements to paired, then sort after calculation
+        _pairedSlots.Add(new KeyValuePair<string, GameObject>(slotElementKey.spinPartInfo.name,centerSpinElement));
     }
     
     [ContextMenu("showInfo")]
     public void ShowInfo()
     {
-        foreach (var slot in _pairs)
+        foreach (var slot in _pairedSlots)
         {
             Debug.Log(slot.Key + " "+ slot.Value);
         }
-        Debug.Log(_pairs.Count);
+        Debug.Log(_pairedSlots.Count);
     }
 
     private void CalculatePoints()
     {
         //calculate win points
-        foreach (var slot in _slotElementsInfo.Where(slot => slot.Value > 1))
+        foreach (var slot in _centeredSlotElementsInfo.Where(slot => slot.Value > 1))
         {
             _winPoints += slot.Key.points * slot.Value  * _bet;
         }
         //delete all elements that haven`t pair
-        foreach (var slot in _slotElementsInfo.Where(slot => slot.Value <= 1))
+        foreach (var slot in _centeredSlotElementsInfo.Where(slot => slot.Value <= 1))
         {
-            foreach (var pairedSlot in _pairs.ToList()
+            foreach (var pairedSlot in _pairedSlots.ToList()
                 .Where(pairedSlot => pairedSlot.Key.Equals(slot.Key.name)))
             {
-                _pairs.Remove(new KeyValuePair<string, GameObject>(pairedSlot.Key, pairedSlot.Value));
+                _pairedSlots.Remove(new KeyValuePair<string, GameObject>(pairedSlot.Key, pairedSlot.Value));
             }
         }
         //send callback to Balance and UiBalance
         OnPointCalculated?.Invoke(_winPoints);
         //send callback to animator
-        TriggerAnimation?.Invoke(_pairs);
+        TriggerAnimation?.Invoke(_pairedSlots);
         
         _winPoints = 0;
-        _slotElementsInfo.Clear();
+        _centeredSlotElementsInfo.Clear();
     }
 
     private void SetBet(int newBet)

@@ -30,8 +30,11 @@ public class Reel : MonoBehaviour {
             rectTransform.Translate(Vector3.down * (Time.smoothDeltaTime * speed), Space.World);
  
             //reset image position
-            if (rectTransform.anchoredPosition.y <= LowerSlotBound)
-                rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + ResetSlotYValue);
+            if (!(rectTransform.anchoredPosition.y <= LowerSlotBound)) continue;
+            
+            var imagePosition = rectTransform.anchoredPosition;
+            imagePosition = new Vector3(imagePosition.x, imagePosition.y + ResetSlotYValue);
+            rectTransform.anchoredPosition = imagePosition;
         }
     }
 

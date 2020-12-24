@@ -5,10 +5,10 @@ using Random = UnityEngine.Random;
 
 public class SlotsLogic : MonoBehaviour 
 {
+    public static Action CalculateWin;
     public Reel[] reel;
     
     private bool _isPlaying;
-    public static Action CalculateWin;
  
     private void Awake ()
     {
