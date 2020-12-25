@@ -1,8 +1,11 @@
 <dependencies>
   <packages>
+    <package>com.android.installreferrer:installreferrer:2.1</package>
     <package>com.android.support:cardview-v7:[26.0.0, 27.2.0[</package>
     <package>com.android.support:customtabs:[26.0.0, 27.2.0[</package>
     <package>com.android.support:support-v4:[26.0.0, 27.2.0[</package>
+    <package>com.appsflyer:af-android-sdk:6.1.0</package>
+    <package>com.appsflyer:unity-wrapper:6.1.1</package>
     <package>com.google.android.gms:play-services-base:[10.2.1, 12.1.0[</package>
     <package>com.google.android.gms:play-services-base:17.5.0</package>
     <package>com.google.android.gms:play-services-location:[10.2.1, 12.1.0[</package>

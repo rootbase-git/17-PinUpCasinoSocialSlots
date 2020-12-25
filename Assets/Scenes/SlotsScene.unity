@@ -1753,6 +1753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bdde2e9b0d59a8408c299791c12e0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  appId: d9a15521-0f6d-4cb5-b561-dfe3db257518
 --- !u!4 &877060076
 Transform:
   m_ObjectHideFlags: 0
@@ -2208,6 +2209,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deacd604fd0a1ef4f9e89ffce1cd1c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1372209159
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315102894599890749, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: m_Name
+      value: AppsFlyerObject
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
 --- !u!1001 &1469161619
 PrefabInstance:
   m_ObjectHideFlags: 0
