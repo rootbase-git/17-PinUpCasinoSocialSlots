@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-installations-unity:7.0.2' // Assets/Firebase/Editor/InstallationsDependencies.xml:20
     implementation 'com.google.firebase:firebase-instance-id-unity:7.0.2' // Assets/Firebase/Editor/InstanceIdDependencies.xml:20
     implementation 'com.google.firebase:firebase-messaging:[10.2.1, 12.1.0[' // Assets/OneSignal/Editor/OneSignalDependencies.xml:4
+    implementation 'com.android.installreferrer:installreferrer:1.1.2'
 // Android Resolver Dependencies End
 **DEPS**}
 
