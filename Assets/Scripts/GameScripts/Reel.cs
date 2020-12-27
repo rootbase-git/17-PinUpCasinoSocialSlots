@@ -46,8 +46,7 @@ public class Reel : MonoBehaviour {
                 100,
                 0,
                 -100,
-                -200,
-                -300
+                -200
             };
 
         //set random original position 
