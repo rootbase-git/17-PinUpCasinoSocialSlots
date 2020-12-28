@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IRefreshable
+﻿namespace GameScripts
 {
-    void RefreshUi(int value);
+    public interface IRefreshable
+    {
+        void RefreshUi(float value);
+    }
 }

@@ -28,14 +28,14 @@ using UnityEngine.UI;
 
 public class SampleWebView : MonoBehaviour
 {
-    public string Url;
+    public string url;
     public Text status;
-    WebViewObject webViewObject;
+    private WebViewObject _webViewObject;
 
-    IEnumerator Start()
+    private IEnumerator Start()
     {
-        webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
-        webViewObject.Init(
+        _webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
+        _webViewObject.Init(
             cb: (msg) =>
             {
                 Debug.Log(string.Format("CallFromJS[{0}]", msg));
@@ -108,7 +108,7 @@ public class SampleWebView : MonoBehaviour
                     "   }" +
                     "};");
 #endif
-                webViewObject.EvaluateJS(@"Unity.call('ua=' + navigator.userAgent)");
+                _webViewObject.EvaluateJS(@"Unity.call('ua=' + navigator.userAgent)");
             },
             //ua: "custom user agent string",
 #if UNITY_EDITOR
@@ -131,12 +131,12 @@ public class SampleWebView : MonoBehaviour
         // Add BASIC authentication feature (Android and iOS with WKWebView only) by takeh1k0 · Pull Request #570 · gree/unity-webview
         //webViewObject.SetBasicAuthInfo("id", "password");
 
-        webViewObject.SetMargins(0, 0, 0, 0);
-        webViewObject.SetVisibility(true);
+        _webViewObject.SetMargins(0, 0, 0, 0);
+        _webViewObject.SetVisibility(true);
 
 #if !UNITY_WEBPLAYER && !UNITY_WEBGL
-        if (Url.StartsWith("http")) {
-            webViewObject.LoadURL(Url.Replace(" ", "%20"));
+        if (url.StartsWith("http")) {
+            _webViewObject.LoadURL(url.Replace(" ", "%20"));
         } else {
             var exts = new string[]{
                 ".jpg",
@@ -144,7 +144,7 @@ public class SampleWebView : MonoBehaviour
                 ".html"  // should be last
             };
             foreach (var ext in exts) {
-                var url = Url.Replace(".html", ext);
+                var url = this.url.Replace(".html", ext);
                 var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
                 var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
                 byte[] result = null;
@@ -164,7 +164,7 @@ public class SampleWebView : MonoBehaviour
                 }
                 System.IO.File.WriteAllBytes(dst, result);
                 if (ext == ".html") {
-                    webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+                    _webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
                     break;
                 }
             }
@@ -184,43 +184,7 @@ public class SampleWebView : MonoBehaviour
         if (!status.IsActive()) return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            webViewObject.GoBack();
+            _webViewObject.GoBack();
         }
     }
-
-    /*void OnGUI()
-    {
-        GUI.enabled = webViewObject.CanGoBack();
-        if (GUI.Button(new Rect(10, 10, 80, 80), "<")) {
-            webViewObject.GoBack();
-        }
-        GUI.enabled = true;
-
-        GUI.enabled = webViewObject.CanGoForward();
-        if (GUI.Button(new Rect(100, 10, 80, 80), ">")) {
-            webViewObject.GoForward();
-        }
-        GUI.enabled = true;
-
-        if (GUI.Button(new Rect(200, 10, 80, 80), "r")) {
-            webViewObject.Reload();
-        }
-
-        GUI.TextField(new Rect(300, 10, 200, 80), "" + webViewObject.Progress());
-
-        if (GUI.Button(new Rect(600, 10, 80, 80), "*")) {
-            var g = GameObject.Find("WebViewObject");
-            if (g != null) {
-                Destroy(g);
-            } else {
-                StartCoroutine(Start());
-            }
-        }
-        GUI.enabled = true;
-
-        if (GUI.Button(new Rect(700, 10, 80, 80), "c")) {
-            Debug.Log(webViewObject.GetCookies(Url));
-        }
-        GUI.enabled = true;
-    }*/
 }

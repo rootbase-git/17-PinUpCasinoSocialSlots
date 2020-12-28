@@ -1,25 +1,28 @@
 ﻿using System;
 using UnityEngine;
 
-public class SlotElement : MonoBehaviour
+namespace GameScripts
 {
-    public SpinPart spinPartInfo;
-    private Animation _animator;
-
-    private void Awake()
+    public class SlotElement : MonoBehaviour
     {
-        _animator = GetComponent<Animation>();
+        public SpinPart spinPartInfo;
+        private Animation _animator;
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animation>();
+        }
+
+        public void PlayAnimation(bool isPlaying)
+        {
+            _animator.enabled = isPlaying;
+        }
     }
 
-    public void PlayAnimation(bool isPlaying)
+    [Serializable]
+    public struct SpinPart
     {
-        _animator.enabled = isPlaying;
+        public string name;
+        public int points;
     }
-}
-
-[Serializable]
-public struct SpinPart
-{
-    public string name;
-    public int points;
 }

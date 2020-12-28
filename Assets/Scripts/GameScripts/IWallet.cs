@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IWallet
+﻿namespace GameScripts
 {
-    void OnIncreaseBalance(int value);
-    void OnDecreaseBalance(int value);
+    public interface IWallet
+    {
+        void OnIncreaseBalance(float value);
+        void OnDecreaseBalance(float value);
+    }
 }
