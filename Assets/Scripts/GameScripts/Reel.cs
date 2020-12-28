@@ -12,7 +12,7 @@ namespace GameScripts
  
         [SerializeField] private int speed;
         private const float LowerSlotBound = -300; 
-        private const float ResetSlotYValue = 600;
+        private const float ResetSlotYValue = 500;
         private const int ZeroValue = 0;
     
         private void Awake()
