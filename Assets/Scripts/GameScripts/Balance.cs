@@ -14,7 +14,7 @@ namespace GameScripts
         {
             //store default balance data or load existing
             CurrentBalance = PlayerPrefs.HasKey(BalanceKey) ? PlayerPrefs.GetFloat(BalanceKey) : DefaultBalance;
-            CurrentBalance = 200;
+            //CurrentBalance = 200;
             RefreshUi(CurrentBalance);
         }
 
