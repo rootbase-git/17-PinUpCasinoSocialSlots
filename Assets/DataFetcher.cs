@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AppsFlyerSDK;
+using Ugi.PlayInstallReferrerPlugin;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,7 +16,7 @@ public class DataFetcher : MonoBehaviour
     private const string JsonInfoKey = "JsonInfo";
     private void Start()
     {
-        //Debug.Log(GetInstallReferrer());
+        Debug.Log(GetInstallReferrer());
         if(PlayerPrefs.HasKey(JsonInfoKey))
         {
             _jsonResult = PlayerPrefs.GetString(JsonInfoKey);
@@ -65,7 +67,6 @@ public class DataFetcher : MonoBehaviour
     }
     #endregion
 
-
     private static bool IsUser(string json)
     {
         if (PlayerPrefs.HasKey(IsUserKey))
@@ -84,7 +85,7 @@ public class DataFetcher : MonoBehaviour
 
 
 
-    /*private string GetInstallReferrer()
+    private string GetInstallReferrer()
     {
         string referrer = null;
         PlayInstallReferrer.GetInstallReferrerInfo(installReferrerDetails =>
@@ -104,7 +105,7 @@ public class DataFetcher : MonoBehaviour
         });
 
         return referrer;
-    }*/
+    }
 }
 
 public class UrlJsonData

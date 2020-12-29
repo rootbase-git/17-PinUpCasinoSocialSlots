@@ -2351,6 +2351,10 @@ PrefabInstance:
       propertyPath: devKey
       value: R47oRDEy5vZSgKqSSsrDkJ
       objectReference: {fileID: 0}
+    - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: getConversionData
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: m_RootOrder
       value: 13
