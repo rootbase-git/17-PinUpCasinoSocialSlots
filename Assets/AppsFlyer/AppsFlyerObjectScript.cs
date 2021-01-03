@@ -14,6 +14,7 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     public string appID;
     public bool isDebug;
     public bool getConversionData;
+    public Dictionary<string, object> conversionDataDictionary;
     //******************************//
 
     void Start()
@@ -36,7 +37,7 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     public void onConversionDataSuccess(string conversionData)
     {
         AppsFlyer.AFLog("didReceiveConversionData", conversionData);
-        Dictionary<string, object> conversionDataDictionary = AppsFlyer.CallbackStringToDictionary(conversionData);
+        conversionDataDictionary = AppsFlyer.CallbackStringToDictionary(conversionData);
         // add deferred deeplink logic here
     }
 

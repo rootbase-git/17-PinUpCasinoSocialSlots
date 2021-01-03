@@ -2295,7 +2295,7 @@ GameObject:
   - component: {fileID: 1241083157}
   - component: {fileID: 1241083156}
   m_Layer: 0
-  m_Name: Startup
+  m_Name: LinkGeneration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2314,7 +2314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   webView: {fileID: 166985823}
-  url: https://install-tracker.com/apps_v2/checker/?bundle=org.neon.reeels
+  cloUrl: https://install-tracker.com/apps_v2/checker/?bundle=org.neon.reeels
 --- !u!4 &1241083157
 Transform:
   m_ObjectHideFlags: 0
