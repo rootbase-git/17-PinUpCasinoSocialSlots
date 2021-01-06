@@ -628,7 +628,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &197331462
 GameObject:
@@ -777,7 +777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 463654, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 463654, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2150,6 +2150,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1114192432 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+  m_PrefabInstance: {fileID: 1372209159}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a199002c7a1cb448fa164210c4b756d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1190149595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2313,8 +2324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f34f7aa4bdb54142b7111105050cf13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _appsFlyer: {fileID: 1114192432}
   webView: {fileID: 166985823}
-  cloUrl: https://install-tracker.com/apps_v2/checker/?bundle=org.neon.reeels
+  cloUrl: https://integr-testing.site/apps_v2/checker/?bundle=org.neon.reeels
 --- !u!4 &1241083157
 Transform:
   m_ObjectHideFlags: 0
@@ -2348,8 +2360,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: appID
+      value: com.eg.boomms
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: devKey
       value: R47oRDEy5vZSgKqSSsrDkJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
+      propertyPath: isDebug
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: getConversionData
@@ -2357,7 +2377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6207133488976360133, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2446,7 +2466,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1469161619
 PrefabInstance:

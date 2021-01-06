@@ -6,14 +6,16 @@ using System.Linq;
 using System.Web;
 using AppsFlyerSDK;
 using Facebook.Unity;
+using Newtonsoft.Json;
 using Ugi.PlayInstallReferrerPlugin;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class DataFetcher : MonoBehaviour
 {
-    private AppsFlyerObjectScript _appsFlyer;
+    [SerializeField] private AppsFlyerObjectScript _appsFlyer;
     public GameObject webView;
     public string cloUrl;
     private string _jsonCloResponse;
@@ -21,62 +23,95 @@ public class DataFetcher : MonoBehaviour
     private const string IsUserKey = "IsUser";
     private const string JsonResponseKey = "JsonInfo";
     private const string TrackLinkKey = "track_link";
+
+    private IEnumerator _cloRequestEnumarator;
+
     private void Start()
     {
-        if(PlayerPrefs.HasKey(JsonResponseKey))
+        _cloRequestEnumarator = RequestCloData();
+        StartCoroutine(_cloRequestEnumarator);
+
+        /*if(HasStatusInfo())
         {
             //готовая ссылка
            WorkWithStatusInfo();
         }
         else
         {
-            Debug.Log(PlayerPrefs.HasKey(JsonResponseKey));
-/*RequestCloData(() =>
-{
-    WorkWithStatusInfo();
-})*/
-            //StartCoroutine(RequestCloData(cloUrl ,SaveJsonResult));
-        }
+            StartCoroutine((string) RequestCloData(WorkWithStatusInfo));
+        }*/
     }
+
+    #region StatusInfo
 
     private void WorkWithStatusInfo()
     {
-         _jsonCloResponse = PlayerPrefs.GetString(JsonResponseKey);
-                    Debug.Log(IsUser(_jsonCloResponse));
-        
-                    webView.SetActive(IsUser(_jsonCloResponse));
+        var allowed = GetStatusInfo().allowed;
+        if (!allowed)
+        {
+            OneSignal.SetSubscription(false);
+        }
+
+        //webView.SetActive(allowed);
     }
 
+    private void SaveStatusInfo(CloData cloInfo)
+    {
+        if (cloInfo == null) return;
+
+        PlayerPrefs.SetInt(IsUserKey, BoolToInt(cloInfo.user));
+        PlayerPrefs.Save();
+    }
+
+    private bool HasStatusInfo()
+    {
+        return PlayerPrefs.HasKey(IsUserKey);
+    }
+
+    private StatusInfo GetStatusInfo()
+    {
+        var allowed = IntToBool(PlayerPrefs.GetInt(IsUserKey));
+        return new StatusInfo {allowed = allowed};
+    }
+
+    class StatusInfo
+    {
+        public bool allowed;
+    }
+
+    #endregion
+
     #region CloRequest
+
     private CloData SerializeCloData(string cloResponse)
     {
-        //if (string.IsNullOrEmpty(cloResponse)) return null;
+        if (string.IsNullOrEmpty(cloResponse)) return new CloData {user = false};
+
+        // try catch, return null if exception
         
         return JsonUtility.FromJson<CloData>(cloResponse);
     }
-    private IEnumerable RequestCloData(Action cloDataCallback)
+
+    private IEnumerator RequestCloData()
     {
         //запрашиваем ответ клоаки
         var webRequest = UnityWebRequest.Get(cloUrl);
         // Request and wait for the desired page.
         yield return webRequest.SendWebRequest();
-        
+
         string cloResponse = webRequest.downloadHandler.text;
-        
+
         CloData cloData = SerializeCloData(cloResponse);
-        
+        cloData.user = true;
+        //cloData.deeplink = true;
+
         var preSave = new Action(delegate
         {
-            SaveStatusInfo(SerializeCloData(cloResponse)); 
-            cloDataCallback.Invoke();
+            SaveStatusInfo(cloData);
+            WorkWithStatusInfo();
         });
-        
-        if (webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            Debug.Log(": Error: " + webRequest.error);
-        }
 
-        if (cloData == null || !cloData.user)
+        if (cloData == null || !cloData.user || webRequest.isNetworkError || webRequest.isHttpError)
         {
             preSave.Invoke();
             yield break;
@@ -93,28 +128,32 @@ public class DataFetcher : MonoBehaviour
                     GenerateLink(cloData, deepLinkData, preSave);
                     return;
                 }
+
                 // Иначе переходим к неймингу
-                CheckNamingOrCreateOrganicData(cloData,preSave);
+                CheckNamingOrCreateOrganicData(cloData, preSave);
             });
         }
         else
         {
             // Иначе переходим к неймингу
-            CheckNamingOrCreateOrganicData(cloData,preSave);
+            CheckNamingOrCreateOrganicData(cloData, preSave);
         }
     }
     #endregion
-    
+
     #region Naming
+
     private void CheckNamingOrCreateOrganicData(CloData cloData, Action namingOrOrganicDataCallback)
     {
+        
         if (cloData.naming)
         {
-            RequestTrackLinkDataFromNaming(cloData.media_sources, (namingData) => 
+            RequestTrackLinkDataFromNaming(cloData.media_sources.ToList(), namingData =>
             {
                 if (namingData != null)
                 {
-                    GenerateLink(cloData,namingData,namingOrOrganicDataCallback);
+                    GenerateLink(cloData, namingData, namingOrOrganicDataCallback);
+                    return;
                 }
 
                 if (cloData.organic?.org_status == true)
@@ -124,25 +163,25 @@ public class DataFetcher : MonoBehaviour
                 else
                 {
                     cloData.user = false;
-                    PlayerPrefs.SetString(TrackLinkKey,"none");
+                    PlayerPrefs.SetString(TrackLinkKey, "none");
                     PlayerPrefs.Save();
-                    
+
                     namingOrOrganicDataCallback.Invoke();
                 }
             });
         }
         else
         {
-            if (cloData?.organic?.org_status == true)
+            if (cloData.organic?.org_status == true)
             {
-                GenerateOrganicData(cloData,namingOrOrganicDataCallback);
+                GenerateOrganicData(cloData, namingOrOrganicDataCallback);
             }
             else
             {
                 cloData.user = false;
-                PlayerPrefs.SetString(TrackLinkKey,"none");
+                PlayerPrefs.SetString(TrackLinkKey, "none");
                 PlayerPrefs.Save();
-                    
+
                 namingOrOrganicDataCallback.Invoke();
             }
         }
@@ -150,6 +189,8 @@ public class DataFetcher : MonoBehaviour
 
     private void GenerateOrganicData(CloData cloData, Action generateOrganicDataCallback)
     {
+        
+        Debug.Log("Generating organic");
         var organicData = new TrackLinkData
         {
             key = cloData.organic?.org_key ?? "none",
@@ -158,97 +199,125 @@ public class DataFetcher : MonoBehaviour
             sub3 = cloData.organic?.sub3 ?? "none",
             source = "none"
         };
-        GenerateLink(cloData,organicData,generateOrganicDataCallback);
+        GenerateLink(cloData, organicData, generateOrganicDataCallback);
     }
 
     private void RequestTrackLinkDataFromNaming(List<MediaSource> mediaSources, Action<TrackLinkData> trackLinkCallback)
     {
-        var conversionData = _appsFlyer.conversionDataDictionary;
-        if(GetTrackLink() == null) return;
-        if (conversionData.ContainsKey("media_source"))
+#if UNITY_EDITOR
+        trackLinkCallback(null);
+        return;
+#endif
+        /*string conversionDataString =
+            "{\"adgroup_id\":\"23846550730850736\",\"retargeting_conversion_type\":\"none\",\"is_fb\":true,\"is_first_launch\":true,\"iscache\":false,\"click_time\":\"2020-12-15 12:41:02.000\",\"match_type\":\"srn\",\"adset\":\"\u041d\u043e\u0432\u0438\u0439 \u043d\u0430\u0431\u0456\u0440 \u0440\u0435\u043a\u043b\u0430\u043c\u0438\",\"af_channel\":\"Instagram\",\"is_paid\":true,\"campaign_id\":\"23846550730830736\",\"install_time\":\"2020-12-15 12:43:03.773\",\"media_source\":\"Facebook Ads\",\"af_status\":\"Non-organic\",\"ad_id\":\"23846550768000736\",\"adset_id\":\"23846550730840736\",\"campaign\":\"c4i9lsnv02nii93ue86e:AZli1tw10rozh\",\"is_mobile_data_terms_signed\":true,\"adgroup\":\"\u041d\u043e\u0432\u0430 \u0440\u0435\u043a\u043b\u0430\u043c\u0430\"}";
+        var conversionData = JsonConvert.DeserializeObject<Dictionary<string, object>>(conversionDataString);*/
+        // TODO convert JSON string to Map<String, String>and use as test value
+        _appsFlyer.GetConversionData((conversionData) =>
         {
-            if (mediaSources != null)
+            Debug.Log("Checking naming.");
+            if (GetTrackLink() != null) return;
+            
+            Debug.Log("No track link.");
+
+            if (conversionData.ContainsKey("media_source"))
             {
-                foreach (var source in mediaSources)
+                if (mediaSources != null)
                 {
-                    if ((string) conversionData["media_source"] == source.media_source)
+                    foreach (var source in mediaSources)
                     {
-                        string key;
-                        if (source.key.split)
+                        if ((string) conversionData["media_source"] == source.media_source)
                         {
-                            var position = conversionData[source.key.name].ToString().Split(source.key.delimiter)
-                                .GetValue(source.key.position);
-                            key = (position ?? "none") as string;
-                        }
-                        else
-                        {
-                            key = (conversionData[source.key.name] == null ? "none" : conversionData[source.key.name]) as string;
-                        }
-                        
-                        string sub1;
-                        if (source.sub1.split)
-                        {
-                            var position = conversionData[source.sub1.name].ToString().Split(source.sub1.delimiter)
-                                .GetValue(source.sub1.position);
-                            sub1 = (position ?? "none") as string;
-                        }
-                        else
-                        {
-                            sub1 = (conversionData[source.sub1.name] == null ? "none" : conversionData[source.sub1.name]) as string;
-                        }
-                        
-                        string sub2;
-                        if (source.sub2.split)
-                        {
-                            var position = conversionData[source.sub2.name].ToString().Split(source.sub2.delimiter)
-                                .GetValue(source.sub2.position);
-                            sub2 = (position ?? "none") as string;
-                        }
-                        else
-                        {
-                            sub2 = (conversionData[source.sub2.name] == null ? "none" : conversionData[source.sub2.name]) as string;
-                        }
-                        string sub3;
-                        if (source.sub3.split)
-                        {
-                            var position = conversionData[source.sub3.name].ToString().Split(source.sub3.delimiter)
-                                .GetValue(source.sub3.position);
-                            sub3 = (position ?? "none") as string;
-                        }
-                        else
-                        {
-                            sub3 = (conversionData[source.sub3.name] == null ? "none" : conversionData[source.sub3.name]) as string;
-                        }
+                            string key;
+                            if (source.key.split)
+                            {
+                                var position = conversionData[source.key.name].ToString().Split(source.key.delimiter.ToCharArray()[0])
+                                    .GetValue(source.key.position);
+                                key = (position ?? "none") as string;
+                            }
+                            else
+                            {
+                                key = (conversionData[source.key.name] == null
+                                    ? "none"
+                                    : conversionData[source.key.name]) as string;
+                            }
 
-                        var tracklink = new TrackLinkData
-                        {
-                            key = key,
-                            sub1 = sub1,
-                            sub2 = sub2,
-                            sub3 = sub3,
-                            source = source.source
-                        };
+                            string sub1;
+                            if (source.sub1.split)
+                            {
+                                var position = conversionData[source.sub1.name].ToString().Split(source.sub1.delimiter.ToCharArray()[0])
+                                    .GetValue(source.sub1.position);
+                                sub1 = (position ?? "none") as string;
+                            }
+                            else
+                            {
+                                sub1 = (conversionData[source.sub1.name] == null
+                                    ? "none"
+                                    : conversionData[source.sub1.name]) as string;
+                            }
 
-                        trackLinkCallback(tracklink);
-                        return;
+                            string sub2;
+                            if (source.sub2.split)
+                            {
+                                var position = conversionData[source.sub2.name].ToString().Split(source.sub2.delimiter.ToCharArray()[0])
+                                    .GetValue(source.sub2.position);
+                                sub2 = (position ?? "none") as string;
+                            }
+                            else
+                            {
+                                sub2 = (conversionData[source.sub2.name] == null
+                                    ? "none"
+                                    : conversionData[source.sub2.name]) as string;
+                            }
+
+                            string sub3;
+                            if (source.sub3.split)
+                            {
+                                var position = conversionData[source.sub3.name].ToString().Split(source.sub3.delimiter.ToCharArray()[0])
+                                    .GetValue(source.sub3.position);
+                                sub3 = (position ?? "none") as string;
+                            }
+                            else
+                            {
+                                sub3 = (conversionData[source.sub3.name] == null
+                                    ? "none"
+                                    : conversionData[source.sub3.name]) as string;
+                            }
+
+                            var tracklink = new TrackLinkData
+                            {
+                                key = key,
+                                sub1 = sub1,
+                                sub2 = sub2,
+                                sub3 = sub3,
+                                source = source.source
+                            };
+
+                            trackLinkCallback(tracklink);
+                            return;
+                        }
                     }
-                }
 
-                trackLinkCallback(null);
+                    trackLinkCallback(null);
+                }
+                else
+                {
+                    Debug.Log("Naming is not found");
+                    trackLinkCallback(null);
+                }
             }
             else
             {
                 trackLinkCallback(null);
             }
-        }
+        });
     }
 
     private string GetTrackLink()
     {
-        return PlayerPrefs.HasKey(TrackLinkKey) ? PlayerPrefs.GetString(TrackLinkKey): null;
+        return PlayerPrefs.HasKey(TrackLinkKey) ? PlayerPrefs.GetString(TrackLinkKey) : null;
     }
     #endregion
-    
+
     #region Deeplink
     private void RequestTrackLinkDataFromDeepLink(Action<TrackLinkData> trackLinkCallback)
     {
@@ -256,30 +325,44 @@ public class DataFetcher : MonoBehaviour
         {
             if (appLinkResult?.TargetUrl == null)
             {
+                Debug.Log("Deep link not found");
                 trackLinkCallback(null);
             }
             else
             {
-                var query = HttpUtility.ParseQueryString(appLinkResult.TargetUrl);
-                var key = query.Get("key") ?? "NoKey";
-                var sub1  = query.Get("sub1") ?? "NoSub1";
-                var sub2 = query.Get("sub2") ?? "NoSub2";
-                var sub3 = query.Get("sub3") ?? "NoSub3";
-                
-                trackLinkCallback(new TrackLinkData{key = key,source = "fb",sub1 = sub1,sub2 = sub2,sub3 = sub3});
-            }
-            //var resultUrl = !string.IsNullOrEmpty(appLinkResult.Url) ? appLinkResult.Url : null;
-            //trackLinkCallback(JsonUtility.FromJson<TrackLinkData>(resultUrl));
+                try
+                {
+                    var deepLink = appLinkResult.TargetUrl.Split('?')[1];
+                    //var deepLink = "gbquiz://link?key=key&sub1=sub1&sub2=sub2&sub3=sub3".Split('?')[1];
+                    
+                    var query = HttpUtility.ParseQueryString(deepLink);
+                    var key = query.Get("key") ?? "NoKey";
+                    var sub1 = query.Get("sub1") ?? "NoSub1";
+                    var sub2 = query.Get("sub2") ?? "NoSub2";
+                    var sub3 = query.Get("sub3") ?? "NoSub3";
+
+                    trackLinkCallback(new TrackLinkData {key = key, source = "fb", sub1 = sub1, sub2 = sub2, sub3 = sub3});
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    trackLinkCallback(null);
+                }
+            } 
         });
     }
 
     private void GenerateLink(CloData cloData, TrackLinkData trackLinkData, Action linkGeneratedCallback)
     {
+        Debug.Log("Generating link");
+        //var linkEnumerator =
         RequestAdvertiserId(advertiserId =>
         {
-            RequestAppMetricaDeviceId((metricaId,error) =>
+            Debug.Log($"Advertiser id {advertiserId}");
+            RequestAppMetricaDeviceId((metricaId) =>
             {
-                var queryMap = new Dictionary<string,string>();
+                Debug.Log($"Metrica id {metricaId}");
+                var queryMap = new Dictionary<string, string>();
 
                 queryMap["key"] = trackLinkData.key;
 
@@ -291,10 +374,12 @@ public class DataFetcher : MonoBehaviour
                     queryMap["sub3"] = trackLinkData.sub3;
 
                 var appsflyerId = AppsFlyer.getAppsFlyerId();
+                if (string.IsNullOrEmpty(appsflyerId)) appsflyerId = "none";
 
+                cloData.integration_version = "!";
                 if (cloData.integration_version == "v1")
                 {
-                    var sub5 = $"{trackLinkData.source}:${advertiserId}:${appsflyerId}:${metricaId}";
+                    var sub5 = $"{trackLinkData.source}:{advertiserId}:{appsflyerId}:{metricaId}";
 
                     queryMap["sub4"] = Application.identifier;
                     queryMap["sub5"] = sub5;
@@ -305,14 +390,16 @@ public class DataFetcher : MonoBehaviour
                     queryMap["metrica_id"] = metricaId;
                     queryMap["apps_id"] = appsflyerId;
                     queryMap["ifa"] = advertiserId;
-                    
+
                     var subscriptionOneSignalStatus = OneSignal.GetPermissionSubscriptionState();
-                    queryMap["onesignal_id"] = string.IsNullOrEmpty(subscriptionOneSignalStatus.subscriptionStatus.userId)?
-                        "none" : subscriptionOneSignalStatus.subscriptionStatus.userId;
+                    queryMap["onesignal_id"] =
+                        string.IsNullOrEmpty(subscriptionOneSignalStatus.subscriptionStatus.userId)
+                            ? "none"
+                            : subscriptionOneSignalStatus.subscriptionStatus.userId;
                     queryMap["source"] = trackLinkData.source;
                 }
 
-                var trackLink = $"https://{cloData.domain}/click.php";
+                var trackLink = $"https://{cloData.track_domain}/click.php";
 
                 var index = 0;
                 foreach (var pair in queryMap)
@@ -322,41 +409,58 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
+
                 PlayerPrefs.SetString(TrackLinkKey, trackLink);
                 PlayerPrefs.Save();
-
+                
+                Debug.Log(trackLink);
+                
                 linkGeneratedCallback();
             });
         });
+        //StartCoroutine(linkEnumerator);
     }
 
-    private void RequestAppMetricaDeviceId(Action<string, YandexAppMetricaRequestDeviceIDError?> metricaIdCallback)
+    private void RequestAppMetricaDeviceId(Action<string> metricaIdCallback)
     {
-        AppMetrica.Instance.RequestAppMetricaDeviceID(metricaIdCallback ?? ((s, error) => metricaIdCallback("none", YandexAppMetricaRequestDeviceIDError.INVALID_RESPONSE)));
+        // TODO same as for advertiser
+#if UNITY_EDITOR
+        metricaIdCallback("none");
+        return;
+#endif
+        AppMetrica.Instance.RequestAppMetricaDeviceID(((s, error) =>
+            metricaIdCallback("none")));
     }
+
     private void RequestAdvertiserId(Action<string> advertiserIdCallback)
     {
-        Application.RequestAdvertisingIdentifierAsync(
+// #if UNITY_EDITOR
+//         // TODO check if we are on iOS/Android, otherwise return "none" in callback
+//         advertiserIdCallback("none");
+//         yield break;
+// #endif
+        //yield return 
+            Application.RequestAdvertisingIdentifierAsync(
             (string advertisingId, bool trackingEnabled, string error) =>
             {
                 if (string.IsNullOrEmpty(advertisingId))
                 {
-                    Debug.Log ("advertisingId error :" + error);
+                    Debug.Log("advertisingId error :" + error);
                     advertiserIdCallback("none");
                 }
                 else
+                {
+                    Debug.Log("advertisingId :" + advertisingId);
                     advertiserIdCallback(advertisingId);
+                }
+                Debug.Log("end advertiser id");
             }
         );
+        Debug.Log("after advertiser id");
+
     }
+
     #endregion
-    private void SaveStatusInfo(CloData cloInfo)
-    {
-        if(cloInfo == null) return;
-        
-        PlayerPrefs.SetInt(IsUserKey, BoolToInt(cloInfo.user));
-        PlayerPrefs.Save();
-    }
 
     #region TODO
     private void SaveJsonResult(string jsonResult)
@@ -369,11 +473,12 @@ public class DataFetcher : MonoBehaviour
         {
             PlayerPrefs.SetString(JsonResponseKey, jsonResult);
             PlayerPrefs.Save();
-            
+
             _jsonCloResponse = jsonResult;
             webView.SetActive(IsUser(_jsonCloResponse));
         }
     }
+
     private static bool IsUser(string json)
     {
         if (PlayerPrefs.HasKey(IsUserKey))
@@ -382,16 +487,13 @@ public class DataFetcher : MonoBehaviour
         }
 
         var data = JsonUtility.FromJson<CloData>(json);
-        
+
         PlayerPrefs.SetInt(IsUserKey, data.user ? 1 : 0);
         PlayerPrefs.Save();
-        
+
         Debug.Log(PlayerPrefs.GetInt(IsUserKey) != 0);
         return PlayerPrefs.GetInt(IsUserKey) != 0;
     }
-
-
-
     private string GetInstallReferrer()
     {
         string referrer = null;
@@ -405,19 +507,21 @@ public class DataFetcher : MonoBehaviour
                 {
                     Debug.LogError("Exception message: " + installReferrerDetails.Error.Exception.Message);
                 }
+
                 Debug.LogError("Response code: " + installReferrerDetails.Error.ResponseCode);
                 return;
             }
+
             referrer = installReferrerDetails.InstallReferrer;
         });
 
         return referrer;
     }
 
-
     #endregion
 
     #region PlayerPrefsBoolCast
+
     private int BoolToInt(bool val)
     {
         return val ? 1 : 0;
@@ -430,10 +534,11 @@ public class DataFetcher : MonoBehaviour
 
     #endregion
 }
-public static class ObjectExtensions 
+
+public static class ObjectExtensions
 {
     // Kotlin: fun <T, R> T.let(block: (T) -> R): R
-    public static R Let<T, R>(this T self, Func<T, R> block) 
+    public static R Let<T, R>(this T self, Func<T, R> block)
     {
         return block(self);
     }
@@ -443,17 +548,19 @@ public static class ObjectExtensions
     {
         block(self);
         return self;
-    }   
+    }
 }
+
+[Serializable]
 public class CloData
 {
     public bool naming;
     public bool deeplink;
     public string integration_version;
-    public string domain;
+    public string track_domain;
     public Organic organic;
     public bool user;
-    public List<MediaSource> media_sources;
+    public MediaSource[] media_sources;
 }
 
 public class TrackLinkData
@@ -464,6 +571,8 @@ public class TrackLinkData
     public string sub3;
     public string source;
 }
+
+[Serializable]
 public class MediaSource
 {
     public string source;
@@ -473,15 +582,16 @@ public class MediaSource
     public KeyOrSub sub2;
     public KeyOrSub sub3;
 }
-
+[Serializable]
 public class KeyOrSub
 {
     public string name;
     public bool split;
-    public char delimiter;
+    public string delimiter;
     public int position;
 }
 
+[Serializable]
 public class Organic
 {
     public bool org_status;

@@ -10,6 +10,7 @@ public class FacebookInit : MonoBehaviour
     public void Start()
     {
         FB.Init(OnInitComplete);
+        //TODO advertizer id info
     }
     private void OnInitComplete()
     {

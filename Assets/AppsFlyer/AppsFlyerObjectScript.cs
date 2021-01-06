@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AppsFlyerSDK;
+using JetBrains.Annotations;
 
 // This class is intended to be used the the AppsFlyerObject.prefab
 
@@ -14,10 +16,11 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     public string appID;
     public bool isDebug;
     public bool getConversionData;
-    public Dictionary<string, object> conversionDataDictionary;
-    //******************************//
+    [CanBeNull] public Dictionary<string, object> conversionDataDictionary;
+    [CanBeNull] public Action<Dictionary<string, object>> conversionDataCallback;
+        //******************************//
 
-    void Start()
+        void Start()
     {
         // These fields are set from the editor so do not modify!
         //******************************//
@@ -33,11 +36,24 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
 
     }
 
+    public void GetConversionData(Action<Dictionary<string, object>> callback)
+    {
+        if (conversionDataDictionary != null)
+        {
+            callback(conversionDataDictionary);
+        }
+        else
+        {
+            conversionDataCallback = callback;
+        }
+    }
+
     // Mark AppsFlyer CallBacks
     public void onConversionDataSuccess(string conversionData)
     {
         AppsFlyer.AFLog("didReceiveConversionData", conversionData);
         conversionDataDictionary = AppsFlyer.CallbackStringToDictionary(conversionData);
+        conversionDataCallback?.Invoke(conversionDataDictionary);
         // add deferred deeplink logic here
     }
 
