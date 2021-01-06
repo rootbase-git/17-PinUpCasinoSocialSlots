@@ -22,7 +22,7 @@ public class DataFetcher : MonoBehaviour
 
     private const string IsUserKey = "IsUser";
     private const string JsonResponseKey = "JsonInfo";
-    private const string TrackLinkKey = "track_link";
+    public const string TrackLinkKey = "track_link";
 
     private IEnumerator _cloRequestEnumerator;
     private string _appIdentifier;

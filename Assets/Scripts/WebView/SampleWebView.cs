@@ -33,6 +33,11 @@ public class SampleWebView : MonoBehaviour
     public Text status;
     private WebViewObject _webViewObject;
 
+    private void OnEnable()
+    {
+        url = PlayerPrefs.HasKey(DataFetcher.TrackLinkKey) ? PlayerPrefs.GetString(DataFetcher.TrackLinkKey) : privacyUrl;
+    }
+
     private IEnumerator Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
