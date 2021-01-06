@@ -9,7 +9,6 @@ using JetBrains.Annotations;
 
 public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
 {
-
     // These fields are set from the editor so do not modify!
     //******************************//
     public string devKey;
@@ -20,20 +19,14 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     [CanBeNull] public Action<Dictionary<string, object>> conversionDataCallback;
         //******************************//
 
-        void Start()
+    private void Start()
     {
         // These fields are set from the editor so do not modify!
         //******************************//
         AppsFlyer.setIsDebug(isDebug);
         AppsFlyer.initSDK(devKey, appID, getConversionData ? this : null);
         //******************************//
-
         AppsFlyer.startSDK();
-    }
-
-    void Update()
-    {
-
     }
 
     public void GetConversionData(Action<Dictionary<string, object>> callback)

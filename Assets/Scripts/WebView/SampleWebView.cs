@@ -29,11 +29,14 @@ using UnityEngine.UI;
 public class SampleWebView : MonoBehaviour
 {
     public string url;
+    public string privacyUrl;
     public Text status;
     private WebViewObject _webViewObject;
 
     private IEnumerator Start()
     {
+        Screen.orientation = ScreenOrientation.Portrait;
+        
         _webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
         _webViewObject.Init(
             cb: (msg) =>

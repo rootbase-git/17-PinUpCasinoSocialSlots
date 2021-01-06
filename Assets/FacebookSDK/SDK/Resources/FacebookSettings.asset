@@ -16,7 +16,7 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 1315204565520245
+  - 3865024540253743
   appLabels:
   - Egypt Boom
   cookie: 1
@@ -27,7 +27,10 @@ MonoBehaviour:
   androidKeystorePath: 
   iosURLSuffix: 
   appLinkSchemes:
-  - list: []
+  - list:
+    - gbquiz
+    - gbquiz://
+    - 
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1

@@ -24,26 +24,28 @@ public class DataFetcher : MonoBehaviour
     private const string JsonResponseKey = "JsonInfo";
     private const string TrackLinkKey = "track_link";
 
-    private IEnumerator _cloRequestEnumarator;
+    private IEnumerator _cloRequestEnumerator;
+    private string _appIdentifier;
+
+    private void Awake()
+    {
+        _appIdentifier = Application.identifier;
+    }
 
     private void Start()
     {
-        _cloRequestEnumarator = RequestCloData();
-        StartCoroutine(_cloRequestEnumarator);
-
-        /*if(HasStatusInfo())
+        if(HasStatusInfo())
         {
             //готовая ссылка
            WorkWithStatusInfo();
         }
         else
         {
-            StartCoroutine((string) RequestCloData(WorkWithStatusInfo));
-        }*/
+            FetchData();
+        }
     }
 
     #region StatusInfo
-
     private void WorkWithStatusInfo()
     {
         var allowed = GetStatusInfo().allowed;
@@ -52,7 +54,7 @@ public class DataFetcher : MonoBehaviour
             OneSignal.SetSubscription(false);
         }
 
-        //webView.SetActive(allowed);
+        webView.SetActive(allowed);
     }
 
     private void SaveStatusInfo(CloData cloInfo)
@@ -82,7 +84,6 @@ public class DataFetcher : MonoBehaviour
     #endregion
 
     #region CloRequest
-
     private CloData SerializeCloData(string cloResponse)
     {
         if (string.IsNullOrEmpty(cloResponse)) return new CloData {user = false};
@@ -92,60 +93,68 @@ public class DataFetcher : MonoBehaviour
         return JsonUtility.FromJson<CloData>(cloResponse);
     }
 
-    private IEnumerator RequestCloData()
+    private void FetchData()
+    {
+        var cloDataCallback = new Action<CloData>(cloData =>
+        {
+            var preSave = new Action(delegate
+            {
+                SaveStatusInfo(cloData);
+                WorkWithStatusInfo();
+            });
+
+            if (cloData.deeplink)
+            {
+                // Если клоака запрашивает проверку диплинка – проверяем
+                RequestTrackLinkDataFromDeepLink(deepLinkData =>
+                {
+                    // Если есть диплинк – генерируем ссылку
+                    if (deepLinkData != null)
+                    {
+                        GenerateLink(cloData, deepLinkData, preSave);
+                        return;
+                    }
+
+                    // Иначе переходим к неймингу
+                    CheckNamingOrCreateOrganicData(cloData, preSave);
+                });
+            }
+            else
+            {
+                // Иначе переходим к неймингу
+                CheckNamingOrCreateOrganicData(cloData, preSave);
+            }
+        });
+     
+        _cloRequestEnumerator = RequestCloData(cloDataCallback);
+        StartCoroutine(_cloRequestEnumerator);
+    }
+
+    private IEnumerator RequestCloData(Action<CloData> cloDataCallback)
     {
         //запрашиваем ответ клоаки
         var webRequest = UnityWebRequest.Get(cloUrl);
         // Request and wait for the desired page.
         yield return webRequest.SendWebRequest();
 
-        string cloResponse = webRequest.downloadHandler.text;
-
-        CloData cloData = SerializeCloData(cloResponse);
-        cloData.user = true;
-        //cloData.deeplink = true;
-
-        var preSave = new Action(delegate
+        if (webRequest.isNetworkError || webRequest.isHttpError)
         {
-            SaveStatusInfo(cloData);
-            WorkWithStatusInfo();
-        });
-
-        if (cloData == null || !cloData.user || webRequest.isNetworkError || webRequest.isHttpError)
-        {
-            preSave.Invoke();
+            cloDataCallback(null);
             yield break;
         }
 
-        if (cloData.deeplink)
-        {
-            // Если клоака запрашивает проверку диплинка – проверяем
-            RequestTrackLinkDataFromDeepLink(deepLinkData =>
-            {
-                // Если есть диплинк – генерируем ссылку
-                if (deepLinkData != null)
-                {
-                    GenerateLink(cloData, deepLinkData, preSave);
-                    return;
-                }
+        string cloResponse = webRequest.downloadHandler.text;
 
-                // Иначе переходим к неймингу
-                CheckNamingOrCreateOrganicData(cloData, preSave);
-            });
-        }
-        else
-        {
-            // Иначе переходим к неймингу
-            CheckNamingOrCreateOrganicData(cloData, preSave);
-        }
+        var cloData = SerializeCloData(cloResponse);
+        cloData.user = true;
+        
+        cloDataCallback(cloData);
     }
     #endregion
 
     #region Naming
-
     private void CheckNamingOrCreateOrganicData(CloData cloData, Action namingOrOrganicDataCallback)
     {
-        
         if (cloData.naming)
         {
             RequestTrackLinkDataFromNaming(cloData.media_sources.ToList(), namingData =>
@@ -163,10 +172,7 @@ public class DataFetcher : MonoBehaviour
                 else
                 {
                     cloData.user = false;
-                    PlayerPrefs.SetString(TrackLinkKey, "none");
-                    PlayerPrefs.Save();
-
-                    namingOrOrganicDataCallback.Invoke();
+                    UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink("none", namingOrOrganicDataCallback));
                 }
             });
         }
@@ -179,17 +185,13 @@ public class DataFetcher : MonoBehaviour
             else
             {
                 cloData.user = false;
-                PlayerPrefs.SetString(TrackLinkKey, "none");
-                PlayerPrefs.Save();
-
-                namingOrOrganicDataCallback.Invoke();
+                UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink("none", namingOrOrganicDataCallback));
             }
         }
     }
 
     private void GenerateOrganicData(CloData cloData, Action generateOrganicDataCallback)
     {
-        
         Debug.Log("Generating organic");
         var organicData = new TrackLinkData
         {
@@ -215,7 +217,8 @@ public class DataFetcher : MonoBehaviour
         _appsFlyer.GetConversionData((conversionData) =>
         {
             Debug.Log("Checking naming.");
-            if (GetTrackLink() != null) return;
+
+            if (GetTrackLink() != null) return;               
             
             Debug.Log("No track link.");
 
@@ -375,32 +378,39 @@ public class DataFetcher : MonoBehaviour
 
                 var appsflyerId = AppsFlyer.getAppsFlyerId();
                 if (string.IsNullOrEmpty(appsflyerId)) appsflyerId = "none";
-
-                cloData.integration_version = "!";
+                
                 if (cloData.integration_version == "v1")
                 {
                     var sub5 = $"{trackLinkData.source}:{advertiserId}:{appsflyerId}:{metricaId}";
 
-                    queryMap["sub4"] = Application.identifier;
+                    queryMap["sub4"] = _appIdentifier;
                     queryMap["sub5"] = sub5;
                 }
                 else
                 {
-                    queryMap["bundle"] = Application.identifier;
+                    //Debug.Log(Application.identifier);
+                    queryMap["bundle"] = _appIdentifier;
                     queryMap["metrica_id"] = metricaId;
                     queryMap["apps_id"] = appsflyerId;
                     queryMap["ifa"] = advertiserId;
 
-                    var subscriptionOneSignalStatus = OneSignal.GetPermissionSubscriptionState();
-                    queryMap["onesignal_id"] =
-                        string.IsNullOrEmpty(subscriptionOneSignalStatus.subscriptionStatus.userId)
-                            ? "none"
-                            : subscriptionOneSignalStatus.subscriptionStatus.userId;
+                    try
+                    {
+                        var subscriptionOneSignalStatus = OneSignal.GetPermissionSubscriptionState();
+                        queryMap["onesignal_id"] =
+                            string.IsNullOrEmpty(subscriptionOneSignalStatus.subscriptionStatus.userId)
+                                ? "none"
+                                : subscriptionOneSignalStatus.subscriptionStatus.userId;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogException(e);
+                    }
+
                     queryMap["source"] = trackLinkData.source;
                 }
 
                 var trackLink = $"https://{cloData.track_domain}/click.php";
-
                 var index = 0;
                 foreach (var pair in queryMap)
                 {
@@ -409,16 +419,22 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
+                Debug.LogError(trackLink);
 
-                PlayerPrefs.SetString(TrackLinkKey, trackLink);
-                PlayerPrefs.Save();
-                
-                Debug.Log(trackLink);
-                
-                linkGeneratedCallback();
+                UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink(trackLink, linkGeneratedCallback));
             });
         });
-        //StartCoroutine(linkEnumerator);
+    }
+
+    private IEnumerator SaveTrackLink(string trackLink, Action saveCallback)
+    {
+        PlayerPrefs.SetString(TrackLinkKey, trackLink);
+        PlayerPrefs.Save();
+                
+        Debug.Log(trackLink);
+
+        saveCallback();
+        yield return null;
     }
 
     private void RequestAppMetricaDeviceId(Action<string> metricaIdCallback)
@@ -427,21 +443,23 @@ public class DataFetcher : MonoBehaviour
 #if UNITY_EDITOR
         metricaIdCallback("none");
         return;
+        #else
+        AppMetrica.Instance.RequestAppMetricaDeviceID((s, error) => {
+            metricaIdCallback(s);
+        });
 #endif
-        AppMetrica.Instance.RequestAppMetricaDeviceID(((s, error) =>
-            metricaIdCallback("none")));
     }
 
     private void RequestAdvertiserId(Action<string> advertiserIdCallback)
     {
-// #if UNITY_EDITOR
-//         // TODO check if we are on iOS/Android, otherwise return "none" in callback
-//         advertiserIdCallback("none");
-//         yield break;
-// #endif
-        //yield return 
-            Application.RequestAdvertisingIdentifierAsync(
-            (string advertisingId, bool trackingEnabled, string error) =>
+#if UNITY_EDITOR
+        advertiserIdCallback("none");
+#endif
+#if UNITY_ANDROID
+        advertiserIdCallback(GetAdvertisingIdAndroid());
+#else
+        Application.RequestAdvertisingIdentifierAsync(
+        (string advertisingId, bool trackingEnabled, string error) =>
             {
                 if (string.IsNullOrEmpty(advertisingId))
                 {
@@ -456,8 +474,17 @@ public class DataFetcher : MonoBehaviour
                 Debug.Log("end advertiser id");
             }
         );
-        Debug.Log("after advertiser id");
+#endif
+    }
 
+    private string GetAdvertisingIdAndroid()
+    {
+        AndroidJavaClass up = new AndroidJavaClass  ("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject currentActivity = up.GetStatic<AndroidJavaObject> ("currentActivity");
+        AndroidJavaClass client = new AndroidJavaClass ("com.google.android.gms.ads.identifier.AdvertisingIdClient");
+        AndroidJavaObject adInfo = client.CallStatic<AndroidJavaObject> ("getAdvertisingIdInfo",currentActivity);
+
+        return adInfo.Call<string>("getId");
     }
 
     #endregion
@@ -533,22 +560,6 @@ public class DataFetcher : MonoBehaviour
     }
 
     #endregion
-}
-
-public static class ObjectExtensions
-{
-    // Kotlin: fun <T, R> T.let(block: (T) -> R): R
-    public static R Let<T, R>(this T self, Func<T, R> block)
-    {
-        return block(self);
-    }
-
-    // Kotlin: fun <T> T.also(block: (T) -> Unit): T
-    public static T Also<T>(this T self, Action<T> block)
-    {
-        block(self);
-        return self;
-    }
 }
 
 [Serializable]

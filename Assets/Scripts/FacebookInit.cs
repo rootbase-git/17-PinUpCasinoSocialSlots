@@ -10,7 +10,7 @@ public class FacebookInit : MonoBehaviour
     public void Start()
     {
         FB.Init(OnInitComplete);
-        //TODO advertizer id info
+        // TODO advertiser id info
     }
     private void OnInitComplete()
     {
@@ -21,5 +21,4 @@ public class FacebookInit : MonoBehaviour
             LogView.AddLog(AccessToken.CurrentAccessToken.ToString());
         }
     }
-
 }
