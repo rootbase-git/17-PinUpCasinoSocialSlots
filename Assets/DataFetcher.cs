@@ -16,12 +16,12 @@ using UnityEngine.Serialization;
 public class DataFetcher : MonoBehaviour
 {
     [SerializeField] private AppsFlyerObjectScript _appsFlyer;
-    public GameObject webView;
+    private SceneLoader _sceneLoader;
     public string cloUrl;
     private string _jsonCloResponse;
 
     private const string IsUserKey = "IsUser";
-    private const string JsonResponseKey = "JsonInfo";
+    //private const string JsonResponseKey = "JsonInfo";
     public const string TrackLinkKey = "track_link";
 
     private IEnumerator _cloRequestEnumerator;
@@ -30,6 +30,7 @@ public class DataFetcher : MonoBehaviour
     private void Awake()
     {
         _appIdentifier = Application.identifier;
+        _sceneLoader = FindObjectOfType<SceneLoader>();
     }
 
     private void Start()
@@ -49,12 +50,15 @@ public class DataFetcher : MonoBehaviour
     private void WorkWithStatusInfo()
     {
         var allowed = GetStatusInfo().allowed;
-        if (!allowed)
+        if (allowed)
+        {
+            _sceneLoader.LoadMainScene();
+        }
+        else
         {
             OneSignal.SetSubscription(false);
+            _sceneLoader.LoadSlotsScene();
         }
-
-        webView.SetActive(allowed);
     }
 
     private void SaveStatusInfo(CloData cloInfo)
@@ -76,7 +80,7 @@ public class DataFetcher : MonoBehaviour
         return new StatusInfo {allowed = allowed};
     }
 
-    class StatusInfo
+    private class StatusInfo
     {
         public bool allowed;
     }
@@ -490,37 +494,6 @@ public class DataFetcher : MonoBehaviour
     #endregion
 
     #region TODO
-    private void SaveJsonResult(string jsonResult)
-    {
-        if (string.IsNullOrEmpty(jsonResult))
-        {
-            Debug.Log("Json response is null or empty");
-        }
-        else
-        {
-            PlayerPrefs.SetString(JsonResponseKey, jsonResult);
-            PlayerPrefs.Save();
-
-            _jsonCloResponse = jsonResult;
-            webView.SetActive(IsUser(_jsonCloResponse));
-        }
-    }
-
-    private static bool IsUser(string json)
-    {
-        if (PlayerPrefs.HasKey(IsUserKey))
-        {
-            return PlayerPrefs.GetInt(IsUserKey) != 0;
-        }
-
-        var data = JsonUtility.FromJson<CloData>(json);
-
-        PlayerPrefs.SetInt(IsUserKey, data.user ? 1 : 0);
-        PlayerPrefs.Save();
-
-        Debug.Log(PlayerPrefs.GetInt(IsUserKey) != 0);
-        return PlayerPrefs.GetInt(IsUserKey) != 0;
-    }
     private string GetInstallReferrer()
     {
         string referrer = null;
