@@ -50,13 +50,14 @@ public class DataFetcher : MonoBehaviour
     private void WorkWithStatusInfo()
     {
         var allowed = GetStatusInfo().allowed;
-        if (allowed)
+        if (!allowed)
         {
             _sceneLoader.LoadMainScene();
         }
         else
         {
             OneSignal.SetSubscription(false);
+            Screen.orientation = ScreenOrientation.Landscape;
             _sceneLoader.LoadSlotsScene();
         }
     }

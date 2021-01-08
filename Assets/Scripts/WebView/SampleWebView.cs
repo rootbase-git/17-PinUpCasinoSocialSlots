@@ -35,13 +35,18 @@ public class SampleWebView : MonoBehaviour
 
     private void OnEnable()
     {
+        Screen.orientation = ScreenOrientation.Portrait;
+
         url = PlayerPrefs.HasKey(DataFetcher.TrackLinkKey) ? PlayerPrefs.GetString(DataFetcher.TrackLinkKey) : privacyUrl;
+    }
+
+    private void OnDisable()
+    {
+        Screen.orientation = ScreenOrientation.Landscape;
     }
 
     private IEnumerator Start()
     {
-        Screen.orientation = ScreenOrientation.Portrait;
-        
         _webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
         _webViewObject.Init(
             cb: (msg) =>
