@@ -15,6 +15,7 @@
     <package>com.facebook.android:facebook-gamingservices:[8.0, 9)</package>
     <package>com.facebook.android:facebook-login:[8.0, 9)</package>
     <package>com.facebook.android:facebook-share:[8.0, 9)</package>
+    <package>com.google.android.gms:play-services-ads:19.5.0</package>
     <package>com.google.android.gms:play-services-base:[10.2.1, 12.1.0[</package>
     <package>com.google.android.gms:play-services-base:17.5.0</package>
     <package>com.google.android.gms:play-services-location:[10.2.1, 12.1.0[</package>
