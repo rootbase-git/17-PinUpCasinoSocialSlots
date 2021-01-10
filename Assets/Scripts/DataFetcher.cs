@@ -7,6 +7,7 @@ using System.Web;
 using AppsFlyerSDK;
 using Facebook.Unity;
 using Newtonsoft.Json;
+using TMPro;
 using Ugi.PlayInstallReferrerPlugin;
 using UnityEditor;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class DataFetcher : MonoBehaviour
 
     private IEnumerator _cloRequestEnumerator;
     private string _appIdentifier;
+
+    public TMP_Text deeplinkUrl;
 
     private void Awake()
     {
@@ -50,15 +53,15 @@ public class DataFetcher : MonoBehaviour
     private void WorkWithStatusInfo()
     {
         var allowed = GetStatusInfo().allowed;
-        if (!allowed)
+        if (allowed)
         {
-            _sceneLoader.LoadMainScene();
+            //_sceneLoader.LoadMainScene();
         }
         else
         {
             OneSignal.SetSubscription(false);
             Screen.orientation = ScreenOrientation.Landscape;
-            _sceneLoader.LoadSlotsScene();
+            //_sceneLoader.LoadSlotsScene();
         }
     }
 
@@ -152,6 +155,7 @@ public class DataFetcher : MonoBehaviour
 
         var cloData = SerializeCloData(cloResponse);
         cloData.user = true;
+        cloData.deeplink = true;
         
         cloDataCallback(cloData);
     }
@@ -197,7 +201,6 @@ public class DataFetcher : MonoBehaviour
 
     private void GenerateOrganicData(CloData cloData, Action generateOrganicDataCallback)
     {
-        Debug.Log("Generating organic");
         var organicData = new TrackLinkData
         {
             key = cloData.organic?.org_key ?? "none",
@@ -221,11 +224,7 @@ public class DataFetcher : MonoBehaviour
         // TODO convert JSON string to Map<String, String>and use as test value
         _appsFlyer.GetConversionData((conversionData) =>
         {
-            Debug.Log("Checking naming.");
-
-            if (GetTrackLink() != null) return;               
-            
-            Debug.Log("No track link.");
+            if (GetTrackLink() != null) return;            
 
             if (conversionData.ContainsKey("media_source"))
             {
@@ -309,7 +308,7 @@ public class DataFetcher : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Naming is not found");
+                    //Debug.Log("Naming is not found");
                     trackLinkCallback(null);
                 }
             }
@@ -331,16 +330,18 @@ public class DataFetcher : MonoBehaviour
     {
         FB.Mobile.FetchDeferredAppLinkData(appLinkResult =>
         {
-            if (appLinkResult?.TargetUrl == null)
+            deeplinkUrl.SetText(appLinkResult.Url);
+            if (appLinkResult?.Url == null)
             {
                 Debug.Log("Deep link not found");
+                Debug.Log(appLinkResult?.Error + "ERROR");
                 trackLinkCallback(null);
             }
             else
             {
                 try
                 {
-                    var deepLink = appLinkResult.TargetUrl.Split('?')[1];
+                    var deepLink = appLinkResult.Url.Split('?')[1];
                     //var deepLink = "gbquiz://link?key=key&sub1=sub1&sub2=sub2&sub3=sub3".Split('?')[1];
                     
                     var query = HttpUtility.ParseQueryString(deepLink);
@@ -353,7 +354,7 @@ public class DataFetcher : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e + "EXCEPTION!!!!!!!!!!!!!");
                     trackLinkCallback(null);
                 }
             } 
@@ -362,7 +363,6 @@ public class DataFetcher : MonoBehaviour
 
     private void GenerateLink(CloData cloData, TrackLinkData trackLinkData, Action linkGeneratedCallback)
     {
-        Debug.Log("Generating link");
         //var linkEnumerator =
         RequestAdvertiserId(advertiserId =>
         {
@@ -409,7 +409,7 @@ public class DataFetcher : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        Debug.LogException(e);
+                        Console.WriteLine(e + "EXCEPTION!!!!!!!!!!!!!!");
                     }
 
                     queryMap["source"] = trackLinkData.source;
@@ -424,7 +424,7 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
-                Debug.LogError(trackLink);
+                //Debug.LogError(trackLink);
 
                 UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink(trackLink, linkGeneratedCallback));
             });
