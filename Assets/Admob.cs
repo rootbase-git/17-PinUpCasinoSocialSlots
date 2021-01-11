@@ -11,7 +11,7 @@ public class Admob : MonoBehaviour
 	[SerializeField] private string idApp, idBanner;
 	private void Start ()
 	{
-		List<string> deviceIds = new List<string>();
+		/*List<string> deviceIds = new List<string>();
 		deviceIds.Add("243ba7cc74032223f05eob1c1e47fa69");
 		RequestConfiguration requestConfiguration = new RequestConfiguration
 				.Builder()
@@ -19,15 +19,16 @@ public class Admob : MonoBehaviour
 			.build();
 		
 		MobileAds.SetRequestConfiguration(requestConfiguration);
-		
+		*/
 		MobileAds.Initialize(idApp);
 		Debug.Log("init");
 
 		RequestBannerAd();
+		
 	}
 
 	#region Banner Methods
-	public void RequestBannerAd()
+	private void RequestBannerAd()
 	{
 		// replace this id with your orignal admob id for banner ad
         //string adUnitId = "ca-app-pub-3940256099942544/6300978111";
@@ -39,29 +40,34 @@ public class Admob : MonoBehaviour
         // Load the banner with the request.
         bannerView.LoadAd(request);
         bannerView.OnAdLoaded += HandleOnAdLoaded;
+        bannerView.OnAdOpening += HideBannerAd;
 	}
 
-	public void DestroyBannerAd ()
+	private void DestroyBannerAd()
 	{
 		bannerView?.Destroy ();
+	}
+	private void HideBannerAd(object a, EventArgs args)
+	{
+		bannerView?.Hide();
 	}
 
 	#endregion
 
 	
 	//------------------------------------------------------------------------
-	AdRequest AdRequestBuild ()
+	private AdRequest AdRequestBuild ()
 	{
 		return new AdRequest.Builder ().Build ();
 	}
-	void HandleOnAdLoaded(object a, EventArgs args)
+	private void HandleOnAdLoaded(object a, EventArgs args)
 	{
 		print("loaded");
 		bannerView.Show();
 	}
 
-	void OnDestroy ()
+	private void OnDestroy ()
 	{
-		DestroyBannerAd ();
+		DestroyBannerAd();
 	}
 }

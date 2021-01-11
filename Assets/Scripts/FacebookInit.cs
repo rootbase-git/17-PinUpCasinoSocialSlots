@@ -6,29 +6,50 @@ using UnityEngine;
 
 public class FacebookInit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void Start()
+    void Awake ()
     {
-        FB.Init(() =>
-        {
-            OnInitComplete();
+        if (!FB.IsInitialized) {
+            // Initialize the Facebook SDK
+            FB.Init(InitCallback, OnHideUnity);
+        } else {
+            // Already initialized, signal an app activation App Event
             FB.ActivateApp();
-            FB.Mobile.FetchDeferredAppLinkData(deeplink =>
-            {
-                Debug.Log("_________________");
-                Debug.Log(deeplink.Url);
-                Debug.Log("_________________");
-            });
-        });
-        // TODO advertiser id info
+            FB.Android.RetrieveLoginStatus(LoginStatusCallback);
+        }
     }
-    private void OnInitComplete()
+
+    private void LoginStatusCallback(ILoginStatusResult result) {
+        if (!string.IsNullOrEmpty(result.Error)) {
+            Debug.Log("Error: " + result.Error);
+        } else if (result.Failed) {
+            Debug.Log("Failure: Access Token could not be retrieved");
+        } else {
+            // Successfully logged user in
+            // A popup notification will appear that says "Logged in as <User Name>"
+            Debug.Log("Success: " + result.AccessToken.UserId);
+        }
+    }
+
+    private void InitCallback ()
     {
-        var logMessage = $"OnInitCompleteCalled IsLoggedIn='{FB.IsLoggedIn}' IsInitialized='{FB.IsInitialized}'";
-        LogView.AddLog(logMessage);
-        if (AccessToken.CurrentAccessToken != null)
-        {
-            LogView.AddLog(AccessToken.CurrentAccessToken.ToString());
+        if (FB.IsInitialized) {
+            // Signal an app activation App Event
+            FB.ActivateApp();
+            // Continue with Facebook SDK
+            // ...
+        } else {
+            Debug.Log("Failed to Initialize the Facebook SDK");
+        }
+    }
+
+    private void OnHideUnity (bool isGameShown)
+    {
+        if (!isGameShown) {
+            // Pause the game - we will need to hide
+            Time.timeScale = 0;
+        } else {
+            // Resume the game - we're getting focus again
+            Time.timeScale = 1;
         }
     }
 }

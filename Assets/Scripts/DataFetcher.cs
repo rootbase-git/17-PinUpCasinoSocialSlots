@@ -22,7 +22,6 @@ public class DataFetcher : MonoBehaviour
     private string _jsonCloResponse;
 
     private const string IsUserKey = "IsUser";
-    //private const string JsonResponseKey = "JsonInfo";
     public const string TrackLinkKey = "track_link";
 
     private IEnumerator _cloRequestEnumerator;
@@ -55,13 +54,14 @@ public class DataFetcher : MonoBehaviour
         var allowed = GetStatusInfo().allowed;
         if (allowed)
         {
-            //_sceneLoader.LoadMainScene();
+            _sceneLoader.LoadMainScene();
         }
         else
         {
             OneSignal.SetSubscription(false);
+            //OneSignal.SetSubscription(true);
             Screen.orientation = ScreenOrientation.Landscape;
-            //_sceneLoader.LoadSlotsScene();
+            _sceneLoader.LoadSlotsScene();
         }
     }
 

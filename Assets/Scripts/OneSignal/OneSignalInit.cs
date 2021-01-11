@@ -8,6 +8,8 @@ public class OneSignalInit: MonoBehaviour
         OneSignal.StartInit(appId)
             .EndInit();
         
+        //OneSignal.SetSubscription(true);
+        
         OneSignal.inFocusDisplayType = OneSignal.OSInFocusDisplayOption.Notification;
     }
 }
