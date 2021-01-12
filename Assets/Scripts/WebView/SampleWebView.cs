@@ -38,6 +38,7 @@ public class SampleWebView : MonoBehaviour
         Screen.orientation = ScreenOrientation.Portrait;
 
         url = PlayerPrefs.HasKey(DataFetcher.TrackLinkKey) ? PlayerPrefs.GetString(DataFetcher.TrackLinkKey) : privacyUrl;
+        StartCoroutine(nameof(OpenUrl));
     }
 
     private void OnDisable()
@@ -45,21 +46,21 @@ public class SampleWebView : MonoBehaviour
         Screen.orientation = ScreenOrientation.Landscape;
     }
 
-    private IEnumerator Start()
+    private IEnumerator OpenUrl()
     {
         _webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
         _webViewObject.Init(
             cb: (msg) =>
             {
                 Debug.Log(string.Format("CallFromJS[{0}]", msg));
-                status.text = msg;
-                status.GetComponent<Animation>().Play();
+                //status.text = msg;
+                //status.GetComponent<Animation>().Play();
             },
             err: (msg) =>
             {
                 Debug.Log(string.Format("CallOnError[{0}]", msg));
-                status.text = msg;
-                status.GetComponent<Animation>().Play();
+                //status.text = msg;
+                //status.GetComponent<Animation>().Play();
             },
             started: (msg) =>
             {
@@ -195,9 +196,18 @@ public class SampleWebView : MonoBehaviour
     private void Update()
     {
         if (!status.IsActive()) return;
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        
+        if(PlayerPrefs.HasKey(DataFetcher.TrackLinkKey))
             _webViewObject.GoBack();
+        else if(!PlayerPrefs.HasKey(DataFetcher.TrackLinkKey) && _webViewObject.CanGoBack())
+            _webViewObject.GoBack();
+        else
+        {
+            Screen.orientation = ScreenOrientation.Landscape;
+            Destroy(_webViewObject);
+            gameObject.SetActive(false);
         }
     }
 }
