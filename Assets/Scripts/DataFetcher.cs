@@ -103,7 +103,12 @@ public class DataFetcher : MonoBehaviour
                 SaveStatusInfo(cloData);
                 WorkWithStatusInfo();
             });
-
+            
+            if (cloData == null || cloData.user == false)
+            {
+                preSave();
+                return;
+            }
             if (cloData.deeplink)
             {
                 // Если клоака запрашивает проверку диплинка – проверяем
