@@ -18,7 +18,7 @@ MonoBehaviour:
   appIds:
   - 3865024540253743
   appLabels:
-  - Egypt Boom
+  - Boombastic Egypt
   cookie: 1
   logging: 1
   status: 1
@@ -29,8 +29,8 @@ MonoBehaviour:
   appLinkSchemes:
   - list:
     - gbquiz
-    - gbquiz://
-    - 
+    - gbquiz://link
+    - gbquiz://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1

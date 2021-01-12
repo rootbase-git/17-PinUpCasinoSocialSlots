@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using AppsFlyerSDK;
 using Facebook.Unity;
-using Newtonsoft.Json;
-using TMPro;
 using Ugi.PlayInstallReferrerPlugin;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Serialization;
 
 public class DataFetcher : MonoBehaviour
 {
@@ -26,8 +21,6 @@ public class DataFetcher : MonoBehaviour
 
     private IEnumerator _cloRequestEnumerator;
     private string _appIdentifier;
-
-    public TMP_Text deeplinkUrl;
 
     private void Awake()
     {
@@ -154,9 +147,7 @@ public class DataFetcher : MonoBehaviour
         string cloResponse = webRequest.downloadHandler.text;
 
         var cloData = SerializeCloData(cloResponse);
-        cloData.user = true;
-        cloData.deeplink = true;
-        
+
         cloDataCallback(cloData);
     }
     #endregion
@@ -330,18 +321,16 @@ public class DataFetcher : MonoBehaviour
     {
         FB.Mobile.FetchDeferredAppLinkData(appLinkResult =>
         {
-            deeplinkUrl.SetText(appLinkResult.Url);
-            if (appLinkResult?.Url == null)
+            if (appLinkResult?.TargetUrl == null)
             {
-                Debug.Log("Deep link not found");
-                Debug.Log(appLinkResult?.Error + "ERROR");
+                Debug.Log(appLinkResult?.Error + "Deep link is empty");
                 trackLinkCallback(null);
             }
             else
             {
                 try
                 {
-                    var deepLink = appLinkResult.Url.Split('?')[1];
+                    var deepLink = appLinkResult.TargetUrl.Split('?')[1];
                     //var deepLink = "gbquiz://link?key=key&sub1=sub1&sub2=sub2&sub3=sub3".Split('?')[1];
                     
                     var query = HttpUtility.ParseQueryString(deepLink);
@@ -354,7 +343,7 @@ public class DataFetcher : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e + "EXCEPTION!!!!!!!!!!!!!");
+                    Console.WriteLine(e + "EXCEPTION!");
                     trackLinkCallback(null);
                 }
             } 
@@ -366,10 +355,10 @@ public class DataFetcher : MonoBehaviour
         //var linkEnumerator =
         RequestAdvertiserId(advertiserId =>
         {
-            Debug.Log($"Advertiser id {advertiserId}");
+            //Debug.Log($"Advertiser id {advertiserId}");
             RequestAppMetricaDeviceId((metricaId) =>
             {
-                Debug.Log($"Metrica id {metricaId}");
+                //Debug.Log($"Metrica id {metricaId}");
                 var queryMap = new Dictionary<string, string>();
 
                 queryMap["key"] = trackLinkData.key;
@@ -393,7 +382,6 @@ public class DataFetcher : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log(Application.identifier);
                     queryMap["bundle"] = _appIdentifier;
                     queryMap["metrica_id"] = metricaId;
                     queryMap["apps_id"] = appsflyerId;
@@ -424,7 +412,9 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
-                //Debug.LogError(trackLink);
+                Debug.LogError("___________________________________");
+                Debug.LogError(trackLink);
+                Debug.LogError("___________________________________:");
 
                 UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink(trackLink, linkGeneratedCallback));
             });
@@ -446,13 +436,17 @@ public class DataFetcher : MonoBehaviour
     {
         // TODO same as for advertiser
 #if UNITY_EDITOR
+        //Debug.Log("EDITOR METRICA");
         metricaIdCallback("none");
         return;
-        #else
-        AppMetrica.Instance.RequestAppMetricaDeviceID((s, error) => {
-            metricaIdCallback(s);
-        });
 #endif
+        //Debug.Log("Android METRICA");
+        AppMetrica.Instance.RequestAppMetricaDeviceID((s, error) =>
+        {
+            //Debug.Log("Android METRICA ID " + s);
+            //Debug.Log("Android METRICA error "+ error);
+            metricaIdCallback(string.IsNullOrEmpty(s) ? "none" : s);
+        });
     }
 
     private void RequestAdvertiserId(Action<string> advertiserIdCallback)
