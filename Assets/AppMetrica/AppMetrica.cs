@@ -109,9 +109,11 @@ public class AppMetrica : MonoBehaviour
     {
         if (ExceptionsReporting) {
 #if UNITY_5 || UNITY_5_3_OR_NEWER
-            Application.logMessageReceived += HandleLog;
+            if(Logs)
+                Application.logMessageReceived += HandleLog;
 #else
-			Application.RegisterLogCallback(HandleLog);
+            if(Logs)
+			    Application.RegisterLogCallback(HandleLog);
 #endif
         }
     }
@@ -120,7 +122,8 @@ public class AppMetrica : MonoBehaviour
     {
         if (ExceptionsReporting) {
 #if UNITY_5 || UNITY_5_3_OR_NEWER
-            Application.logMessageReceived -= HandleLog;
+            if(Logs)
+                Application.logMessageReceived -= HandleLog;
 #else
 			Application.RegisterLogCallback(null);
 #endif

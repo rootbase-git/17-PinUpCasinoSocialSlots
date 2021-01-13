@@ -1,73 +1,60 @@
 using UnityEngine;
 using GoogleMobileAds.Api;
 using System;
-using System.Collections.Generic;
+using GameScripts;
 
-//Banner ad
 public class Admob : MonoBehaviour
 {
-	private BannerView bannerView;
+	//private BannerView bannerView;
+	private InterstitialAd interstitial;
 
-	[SerializeField] private string idApp, idBanner;
+	[SerializeField] private string idApp;
+	[SerializeField] private string adId;
 	private void Start ()
 	{
-		/*List<string> deviceIds = new List<string>();
-		deviceIds.Add("243ba7cc74032223f05eob1c1e47fa69");
-		RequestConfiguration requestConfiguration = new RequestConfiguration
-				.Builder()
-			.SetTestDeviceIds(deviceIds)
-			.build();
-		
-		MobileAds.SetRequestConfiguration(requestConfiguration);
-		*/
 		MobileAds.Initialize(idApp);
-		Debug.Log("init");
-
-		RequestBannerAd();
-		
+		//RequestBannerAd();
 	}
 
-	#region Banner Methods
+	#region AdMethods
 	private void RequestBannerAd()
 	{
-		// replace this id with your orignal admob id for banner ad
-        //string adUnitId = "ca-app-pub-3940256099942544/6300978111";
- 
-        // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(idBanner, AdSize.Banner, AdPosition.Bottom);
-        // Create an empty ad request.
+        interstitial = new InterstitialAd(adId);
+        
         AdRequest request = new AdRequest.Builder().Build();
-        // Load the banner with the request.
-        bannerView.LoadAd(request);
-        bannerView.OnAdLoaded += HandleOnAdLoaded;
-        bannerView.OnAdOpening += HideBannerAd;
+        
+        interstitial.LoadAd(request);
+        interstitial.OnAdLoaded += HandleOnAdLoaded;
+        interstitial.OnAdClosed += DestroyBannerAd;
 	}
 
 	private void DestroyBannerAd()
 	{
-		bannerView?.Destroy ();
+		interstitial?.Destroy ();
 	}
-	private void HideBannerAd(object a, EventArgs args)
+	private void DestroyBannerAd(object a, EventArgs args)
 	{
-		bannerView?.Hide();
+		interstitial?.Destroy();
 	}
-
 	#endregion
 
-	
-	//------------------------------------------------------------------------
-	private AdRequest AdRequestBuild ()
-	{
-		return new AdRequest.Builder ().Build ();
-	}
 	private void HandleOnAdLoaded(object a, EventArgs args)
 	{
-		print("loaded");
-		bannerView.Show();
+		interstitial.Show();
 	}
 
 	private void OnDestroy ()
 	{
 		DestroyBannerAd();
+	}
+
+	private void OnEnable()
+	{
+		SlotsLogic.ActivateAd += RequestBannerAd;
+	}
+
+	private void OnDisable()
+	{
+		SlotsLogic.ActivateAd -= RequestBannerAd;
 	}
 }

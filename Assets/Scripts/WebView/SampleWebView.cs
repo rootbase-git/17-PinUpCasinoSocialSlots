@@ -52,27 +52,27 @@ public class SampleWebView : MonoBehaviour
         _webViewObject.Init(
             cb: (msg) =>
             {
-                Debug.Log(string.Format("CallFromJS[{0}]", msg));
+                //Debug.Log(string.Format("CallFromJS[{0}]", msg));
                 //status.text = msg;
                 //status.GetComponent<Animation>().Play();
             },
             err: (msg) =>
             {
-                Debug.Log(string.Format("CallOnError[{0}]", msg));
+                //Debug.Log(string.Format("CallOnError[{0}]", msg));
                 //status.text = msg;
                 //status.GetComponent<Animation>().Play();
             },
             started: (msg) =>
             {
-                Debug.Log(string.Format("CallOnStarted[{0}]", msg));
+                //Debug.Log(string.Format("CallOnStarted[{0}]", msg));
             },
             hooked: (msg) =>
             {
-                Debug.Log(string.Format("CallOnHooked[{0}]", msg));
+                //Debug.Log(string.Format("CallOnHooked[{0}]", msg));
             },
             ld: (msg) =>
             {
-                Debug.Log(string.Format("CallOnLoaded[{0}]", msg));
+                //Debug.Log(string.Format("CallOnLoaded[{0}]", msg));
 #if UNITY_EDITOR_OSX || (!UNITY_ANDROID && !UNITY_WEBPLAYER && !UNITY_WEBGL)
                 // NOTE: depending on the situation, you might prefer
                 // the 'iframe' approach.

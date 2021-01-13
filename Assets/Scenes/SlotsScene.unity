@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idApp: ca-app-pub-8398515335130404~3035748338
-  idBanner: ca-app-pub-8398515335130404/9218013308
+  adId: ca-app-pub-8398515335130404/1479193894
 --- !u!4 &180083813
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,10 +1033,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 32.401913, y: 0, z: 31.155676, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3506,6 +3506,7 @@ MonoBehaviour:
   - {fileID: 1356022829}
   - {fileID: 302235410}
   - {fileID: 94751358}
+  _isPlaying: 0
 --- !u!114 &2027260037
 MonoBehaviour:
   m_ObjectHideFlags: 0

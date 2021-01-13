@@ -32,7 +32,6 @@ public class DataFetcher : MonoBehaviour
     {
         if(HasStatusInfo())
         {
-            //готовая ссылка
            WorkWithStatusInfo();
         }
         else
@@ -52,7 +51,6 @@ public class DataFetcher : MonoBehaviour
         else
         {
             OneSignal.SetSubscription(false);
-            //OneSignal.SetSubscription(true);
             Screen.orientation = ScreenOrientation.Landscape;
             _sceneLoader.LoadSlotsScene();
         }
@@ -103,7 +101,7 @@ public class DataFetcher : MonoBehaviour
                 SaveStatusInfo(cloData);
                 WorkWithStatusInfo();
             });
-            
+
             if (cloData == null || cloData.user == false)
             {
                 preSave();
@@ -111,23 +109,19 @@ public class DataFetcher : MonoBehaviour
             }
             if (cloData.deeplink)
             {
-                // Если клоака запрашивает проверку диплинка – проверяем
                 RequestTrackLinkDataFromDeepLink(deepLinkData =>
                 {
-                    // Если есть диплинк – генерируем ссылку
                     if (deepLinkData != null)
                     {
                         GenerateLink(cloData, deepLinkData, preSave);
                         return;
                     }
 
-                    // Иначе переходим к неймингу
                     CheckNamingOrCreateOrganicData(cloData, preSave);
                 });
             }
             else
             {
-                // Иначе переходим к неймингу
                 CheckNamingOrCreateOrganicData(cloData, preSave);
             }
         });
@@ -138,9 +132,8 @@ public class DataFetcher : MonoBehaviour
 
     private IEnumerator RequestCloData(Action<CloData> cloDataCallback)
     {
-        //запрашиваем ответ клоаки
         var webRequest = UnityWebRequest.Get(cloUrl);
-        // Request and wait for the desired page.
+        
         yield return webRequest.SendWebRequest();
 
         if (webRequest.isNetworkError || webRequest.isHttpError)
@@ -214,10 +207,6 @@ public class DataFetcher : MonoBehaviour
         trackLinkCallback(null);
         return;
 #endif
-        /*string conversionDataString =
-            "{\"adgroup_id\":\"23846550730850736\",\"retargeting_conversion_type\":\"none\",\"is_fb\":true,\"is_first_launch\":true,\"iscache\":false,\"click_time\":\"2020-12-15 12:41:02.000\",\"match_type\":\"srn\",\"adset\":\"\u041d\u043e\u0432\u0438\u0439 \u043d\u0430\u0431\u0456\u0440 \u0440\u0435\u043a\u043b\u0430\u043c\u0438\",\"af_channel\":\"Instagram\",\"is_paid\":true,\"campaign_id\":\"23846550730830736\",\"install_time\":\"2020-12-15 12:43:03.773\",\"media_source\":\"Facebook Ads\",\"af_status\":\"Non-organic\",\"ad_id\":\"23846550768000736\",\"adset_id\":\"23846550730840736\",\"campaign\":\"c4i9lsnv02nii93ue86e:AZli1tw10rozh\",\"is_mobile_data_terms_signed\":true,\"adgroup\":\"\u041d\u043e\u0432\u0430 \u0440\u0435\u043a\u043b\u0430\u043c\u0430\"}";
-        var conversionData = JsonConvert.DeserializeObject<Dictionary<string, object>>(conversionDataString);*/
-        // TODO convert JSON string to Map<String, String>and use as test value
         _appsFlyer.GetConversionData((conversionData) =>
         {
             if (GetTrackLink() != null) return;            
@@ -336,7 +325,6 @@ public class DataFetcher : MonoBehaviour
                 try
                 {
                     var deepLink = appLinkResult.TargetUrl.Split('?')[1];
-                    //var deepLink = "gbquiz://link?key=key&sub1=sub1&sub2=sub2&sub3=sub3".Split('?')[1];
                     
                     var query = HttpUtility.ParseQueryString(deepLink);
                     var key = query.Get("key") ?? "NoKey";
@@ -357,13 +345,10 @@ public class DataFetcher : MonoBehaviour
 
     private void GenerateLink(CloData cloData, TrackLinkData trackLinkData, Action linkGeneratedCallback)
     {
-        //var linkEnumerator =
         RequestAdvertiserId(advertiserId =>
         {
-            //Debug.Log($"Advertiser id {advertiserId}");
             RequestAppMetricaDeviceId((metricaId) =>
             {
-                //Debug.Log($"Metrica id {metricaId}");
                 var queryMap = new Dictionary<string, string>();
 
                 queryMap["key"] = trackLinkData.key;
@@ -417,9 +402,6 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
-                Debug.LogError("___________________________________");
-                Debug.LogError(trackLink);
-                Debug.LogError("___________________________________:");
 
                 UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink(trackLink, linkGeneratedCallback));
             });
@@ -430,8 +412,6 @@ public class DataFetcher : MonoBehaviour
     {
         PlayerPrefs.SetString(TrackLinkKey, trackLink);
         PlayerPrefs.Save();
-                
-        Debug.Log(trackLink);
 
         saveCallback();
         yield return null;
@@ -439,17 +419,12 @@ public class DataFetcher : MonoBehaviour
 
     private void RequestAppMetricaDeviceId(Action<string> metricaIdCallback)
     {
-        // TODO same as for advertiser
 #if UNITY_EDITOR
-        //Debug.Log("EDITOR METRICA");
         metricaIdCallback("none");
         return;
 #endif
-        //Debug.Log("Android METRICA");
         AppMetrica.Instance.RequestAppMetricaDeviceID((s, error) =>
         {
-            //Debug.Log("Android METRICA ID " + s);
-            //Debug.Log("Android METRICA error "+ error);
             metricaIdCallback(string.IsNullOrEmpty(s) ? "none" : s);
         });
     }
@@ -467,15 +442,12 @@ public class DataFetcher : MonoBehaviour
             {
                 if (string.IsNullOrEmpty(advertisingId))
                 {
-                    Debug.Log("advertisingId error :" + error);
                     advertiserIdCallback("none");
                 }
                 else
                 {
-                    Debug.Log("advertisingId :" + advertisingId);
                     advertiserIdCallback(advertisingId);
                 }
-                Debug.Log("end advertiser id");
             }
         );
 #endif
@@ -489,33 +461,6 @@ public class DataFetcher : MonoBehaviour
         AndroidJavaObject adInfo = client.CallStatic<AndroidJavaObject> ("getAdvertisingIdInfo",currentActivity);
 
         return adInfo.Call<string>("getId");
-    }
-
-    #endregion
-
-    #region TODO
-    private string GetInstallReferrer()
-    {
-        string referrer = null;
-        PlayInstallReferrer.GetInstallReferrerInfo(installReferrerDetails =>
-        {
-            // check for error
-            if (installReferrerDetails.Error != null)
-            {
-                Debug.LogError("Error occurred!");
-                if (installReferrerDetails.Error.Exception != null)
-                {
-                    Debug.LogError("Exception message: " + installReferrerDetails.Error.Exception.Message);
-                }
-
-                Debug.LogError("Response code: " + installReferrerDetails.Error.ResponseCode);
-                return;
-            }
-
-            referrer = installReferrerDetails.InstallReferrer;
-        });
-
-        return referrer;
     }
 
     #endregion
@@ -546,7 +491,7 @@ public class CloData
     public bool user;
     public MediaSource[] media_sources;
 }
-
+[Serializable]
 public class TrackLinkData
 {
     public string key;

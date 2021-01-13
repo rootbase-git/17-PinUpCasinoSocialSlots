@@ -8,9 +8,12 @@ namespace GameScripts
     public class SlotsLogic : MonoBehaviour 
     {
         public static Action CalculateWin;
+        public static Action ActivateAd;
         public Reel[] reel;
     
-        private bool _isPlaying;
+        public bool _isPlaying;
+        private const int SpinsToAd = 10;
+        private int _currentSpinsCount;
  
         private void Awake ()
         {
@@ -49,8 +52,17 @@ namespace GameScripts
                 individualReel.SetOriginSlotPosition();
             }
             _isPlaying = false;
+            CheckSpinsToActivateAd();
             
             CalculateWin?.Invoke();
+        }
+
+        private void CheckSpinsToActivateAd()
+        {
+            _currentSpinsCount++;
+            if (_currentSpinsCount < SpinsToAd) return;
+            ActivateAd?.Invoke();
+            _currentSpinsCount = 0;
         }
 
         public void StartSpinning()

@@ -44,7 +44,8 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     // Mark AppsFlyer CallBacks
     public void onConversionDataSuccess(string conversionData)
     {
-        AppsFlyer.AFLog("didReceiveConversionData", conversionData);
+        if(isDebug)
+            AppsFlyer.AFLog("didReceiveConversionData", conversionData);
         conversionDataDictionary = AppsFlyer.CallbackStringToDictionary(conversionData);
         conversionDataCallback?.Invoke(conversionDataDictionary);
         // add deferred deeplink logic here
@@ -52,18 +53,21 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
 
     public void onConversionDataFail(string error)
     {
-        AppsFlyer.AFLog("didReceiveConversionDataWithError", error);
+        if(isDebug)
+            AppsFlyer.AFLog("didReceiveConversionDataWithError", error);
     }
 
     public void onAppOpenAttribution(string attributionData)
     {
-        AppsFlyer.AFLog("onAppOpenAttribution", attributionData);
+        if(isDebug)
+            AppsFlyer.AFLog("onAppOpenAttribution", attributionData);
         Dictionary<string, object> attributionDataDictionary = AppsFlyer.CallbackStringToDictionary(attributionData);
         // add direct deeplink logic here
     }
 
     public void onAppOpenAttributionFailure(string error)
     {
-        AppsFlyer.AFLog("onAppOpenAttributionFailure", error);
+        if(isDebug)
+            AppsFlyer.AFLog("onAppOpenAttributionFailure", error);
     }
 }
