@@ -5,16 +5,17 @@ using Random = UnityEngine.Random;
 
 namespace GameScripts
 {
-    public class SlotsLogic : MonoBehaviour 
+    public class SlotsLogic : MonoBehaviour
     {
         public static Action CalculateWin;
         public static Action ActivateAd;
         public Reel[] reel;
-    
-        public bool _isPlaying;
+        public bool IsPlaying => _isPlaying;
+
+        private bool _isPlaying;
         private const int SpinsToAd = 10;
         private int _currentSpinsCount;
- 
+
         private void Awake ()
         {
             _isPlaying = false;

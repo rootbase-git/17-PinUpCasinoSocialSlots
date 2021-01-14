@@ -20,10 +20,12 @@ namespace GameScripts
         private const int DefaultBetStep = 10;
 
         private Balance _currentBalance;
+        private SlotsLogic _slotsLogic;
 
         private void Awake()
         {
             _currentBalance = FindObjectOfType<Balance>();
+            _slotsLogic = FindObjectOfType<SlotsLogic>();
         }
 
         private void Start()
@@ -73,6 +75,7 @@ namespace GameScripts
 
         public void DecreaseBalanceAfterBet()
         {
+            if(_slotsLogic.IsPlaying) return;
             OnBetMade?.Invoke(_currentBetValue);
         }
 
