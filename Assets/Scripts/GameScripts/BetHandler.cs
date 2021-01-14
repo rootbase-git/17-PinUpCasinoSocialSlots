@@ -35,38 +35,60 @@ namespace GameScripts
 
         public void IncreaseBet()
         {
-            if (_currentBetValue + DefaultBetStep <= _currentBalance.CurrentBalance)
+            if (_currentBetValue + DefaultBetStep < _currentBalance.CurrentBalance)
             {
                 _currentBetValue += DefaultBetStep;
                 RefreshUi(_currentBetValue);
-            
-                if (_currentBalance.CurrentBalance - DefaultBetStep  >= 0)
-                {
-                    decreaseBetButton.interactable = true;
-                }
+                
+                RefreshPlusButton();
+            }
+            else if(_currentBetValue + DefaultBetStep == _currentBalance.CurrentBalance)
+            {
+                _currentBetValue += DefaultBetStep;
+                RefreshUi(_currentBetValue);
+
+                RefreshPlusButton();
+                
+                increaseBetButton.interactable = false;
             }
             else
             {
+                _currentBetValue = Mathf.RoundToInt(_currentBalance.CurrentBalance);
+                RefreshUi(_currentBetValue);
+
+                RefreshPlusButton();
+                
                 increaseBetButton.interactable = false;
             }
-        
+
             if (_currentBetValue > 0) playButton.interactable = true;
         }
     
         public void DecreaseBet()
         {
-            if (_currentBalance.CurrentBalance >= DefaultBetStep && _currentBetValue - DefaultBetStep >= 0)
+            if (_currentBalance.CurrentBalance >= DefaultBetStep && _currentBetValue - DefaultBetStep > 0)
             {
                 _currentBetValue -= DefaultBetStep;
                 RefreshUi(_currentBetValue);
-            
-                if (_currentBalance.CurrentBalance > _currentBetValue)
-                {
-                    increaseBetButton.interactable = true;
-                }
+
+                RefreshMinusButton();
+            }
+            else if (_currentBetValue - DefaultBetStep == 0)
+            {
+                _currentBetValue -= DefaultBetStep;
+                RefreshUi(_currentBetValue);
+
+                RefreshMinusButton();
+                
+                decreaseBetButton.interactable = false;
             }
             else
             {
+                _currentBetValue = 0;
+                RefreshUi(_currentBetValue);
+
+                RefreshMinusButton();
+                
                 decreaseBetButton.interactable = false;
             }
 
@@ -82,11 +104,33 @@ namespace GameScripts
         private void SetWinTextValue(float winValue)
         {
             winValueText.SetText(winValue.ToString());
+            ButtonsRefresh();
         }
     
         public void RefreshUi(float value)
         {
             currentBetText.SetText(value.ToString());
+        }
+
+        private void ButtonsRefresh()
+        {
+            RefreshMinusButton();
+            RefreshPlusButton();
+        }
+
+        private void RefreshMinusButton()
+        {
+            if (_currentBalance.CurrentBalance > _currentBetValue)
+            {
+                increaseBetButton.interactable = true;
+            }
+        }
+        private void RefreshPlusButton()
+        {
+            if (_currentBalance.CurrentBalance - DefaultBetStep  >= 0)
+            {
+                decreaseBetButton.interactable = true;
+            }
         }
     
         private void OnEnable()
