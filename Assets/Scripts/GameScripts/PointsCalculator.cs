@@ -70,7 +70,7 @@ namespace GameScripts
                 }
             }
             //send callback to Balance and UiBalance
-            OnPointCalculated?.Invoke(_winPoints);
+            OnPointCalculated?.Invoke(Mathf.RoundToInt(_winPoints));
             //send callback to animator
             TriggerAnimation?.Invoke(_pairedSlots);
         
