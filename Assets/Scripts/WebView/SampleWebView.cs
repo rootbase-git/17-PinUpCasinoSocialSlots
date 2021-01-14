@@ -78,7 +78,7 @@ public class SampleWebView : MonoBehaviour
                 // the 'iframe' approach.
                 // cf. https://github.com/gree/unity-webview/issues/189
 #if true
-                webViewObject.EvaluateJS(@"
+                _webViewObject.EvaluateJS(@"
                   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
                     window.Unity = {
                       call: function(msg) {
@@ -94,7 +94,7 @@ public class SampleWebView : MonoBehaviour
                   }
                 ");
 #else
-                webViewObject.EvaluateJS(@"
+                _webViewObject.EvaluateJS(@"
                   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
                     window.Unity = {
                       call: function(msg) {
@@ -115,7 +115,7 @@ public class SampleWebView : MonoBehaviour
                 ");
 #endif
 #elif UNITY_WEBPLAYER || UNITY_WEBGL
-                webViewObject.EvaluateJS(
+                _webViewObject.EvaluateJS(
                     "window.Unity = {" +
                     "   call:function(msg) {" +
                     "       parent.unityWebView.sendMessage('WebViewObject', msg)" +
