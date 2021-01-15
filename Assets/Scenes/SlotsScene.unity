@@ -2632,7 +2632,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596326999}
         m_TargetAssemblyTypeName: BetHandler, Assembly-CSharp
-        m_MethodName: DecreaseBalanceAfterBet
+        m_MethodName: DecreaseBalanceAfterClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2644,7 +2644,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2027260035}
         m_TargetAssemblyTypeName: Slots, Assembly-CSharp
-        m_MethodName: StartSpinning
+        m_MethodName: SpinningRoutine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2656,7 +2656,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2027260038}
         m_TargetAssemblyTypeName: SlotAnimation, Assembly-CSharp
-        m_MethodName: DeactivateAnimations
+        m_MethodName: Deactivate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3407,7 +3407,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596326999}
         m_TargetAssemblyTypeName: BetHandler, Assembly-CSharp
-        m_MethodName: IncreaseBet
+        m_MethodName: IncreaseMoney
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3709,7 +3709,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596326999}
         m_TargetAssemblyTypeName: BetHandler, Assembly-CSharp
-        m_MethodName: DecreaseBet
+        m_MethodName: DecreaseMoney
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
