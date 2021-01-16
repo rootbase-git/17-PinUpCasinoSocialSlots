@@ -16,9 +16,11 @@ namespace GameScripts
         private bool isPlaying;
         private const int SpinsToAds = 10;
         private int _currentSpins;
+        private AudioController _audioController;
 
         private void Awake ()
         {
+            _audioController = FindObjectOfType<AudioController>();
             isPlaying = false;
         }
 #if UNITY_EDITOR     
@@ -34,6 +36,7 @@ namespace GameScripts
         private IEnumerator StartPlaying()
         {
             isPlaying = true;
+            _audioController.PlayAudio(_audioController.spinning,true);
             foreach (var individualReel in reels)
             {
                 if (individualReel == null)

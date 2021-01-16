@@ -22,11 +22,13 @@ namespace GameScripts
 
         private SlotBalancer _currentSlotBalance;
         private GameLogic _gameLogi;
+        private AudioController _audioController;
 
         private void Awake()
         {
             _currentSlotBalance = FindObjectOfType<SlotBalancer>();
             _gameLogi = FindObjectOfType<GameLogic>();
+            _audioController = FindObjectOfType<AudioController>();
         }
 
         private void Start()
@@ -61,7 +63,7 @@ namespace GameScripts
                 
                 increaseBet.interactable = false;
             }
-
+            _audioController.PlayAudio(_audioController.click, false);
             if (_currentBet > 0) play.interactable = true;
         }
     
@@ -92,6 +94,7 @@ namespace GameScripts
                 
                 decreaseBet.interactable = false;
             }
+            _audioController.PlayAudio(_audioController.click, false);
 
             if (_currentBet == 0) play.interactable = false;
         }
@@ -99,6 +102,7 @@ namespace GameScripts
         public void DecreaseBalanceAfterClick()
         {
             if(_gameLogi.IsPlaying) return;
+            _audioController.PlayAudio(_audioController.buttonPress, false);
             OnBet?.Invoke(_currentBet);
         }
 

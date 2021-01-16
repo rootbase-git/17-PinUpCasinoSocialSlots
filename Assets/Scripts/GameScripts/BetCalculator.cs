@@ -18,6 +18,12 @@ namespace GameScripts
     
         [FormerlySerializedAs("_winPoints")] [SerializeField] private float winPoints;
         [FormerlySerializedAs("_bet")] [SerializeField] private float bet = 0;
+        private AudioController _audioController;
+
+        private void Awake()
+        {
+            _audioController = FindObjectOfType<AudioController>();
+        }
 
         public void UpdateHash(GameObject centerSpinElement)
         {
@@ -62,9 +68,15 @@ namespace GameScripts
             }
             //send callback to Balance and UiBalance
             OnPointCalculate?.Invoke(Mathf.RoundToInt(winPoints));
+            
             //send callback to animator
             TriggerAnimatio?.Invoke(_pairedSlot);
-        
+            
+            if (winPoints > 0)
+                _audioController.PlayAudio(_audioController.win, false);
+            else
+                _audioController.StopAudio();
+
             winPoints = 0;
             _centeredSlotElements.Clear();
         }
