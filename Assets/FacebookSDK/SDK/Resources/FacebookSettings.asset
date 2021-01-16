@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 3865024540253743
+  - 143740674106408
   appLabels:
-  - Boombastic Egypt
+  - Neon Boom
   cookie: 1
   logging: 1
   status: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - gbquiz
-    - gbquiz://link
-    - gbquiz://link?
+    - NeonBoo
+    - NeonBoo://link
+    - NeonBoo://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1
