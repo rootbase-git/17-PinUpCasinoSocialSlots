@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11457290, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: ApiKey
-      value: 9ea38691-9dcf-49b2-85bf-d0d54eec8321
+      value: c1fe04aa-f5e4-4766-947f-9d36a8202491
       objectReference: {fileID: 0}
     - target: {fileID: 11457290, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: LocationTracking
@@ -1040,11 +1040,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: appID
-      value: com.neonboom.boo
+      value: gol.enwest.gam
       objectReference: {fileID: 0}
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: devKey
-      value: aNV2RaGWCTUMoTHusBYCdL
+      value: mn2nfPq7qM6GXajdJ6xRh8
       objectReference: {fileID: 0}
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: isDebug
