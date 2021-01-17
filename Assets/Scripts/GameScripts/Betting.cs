@@ -16,6 +16,7 @@ namespace GameScripts
 
         [FormerlySerializedAs("currentBetText")] public TMP_Text currentBet;
         [FormerlySerializedAs("winValueText")] public TMP_Text winValue;
+        public ParticleSystem winParticleSystem;
 
         private int _currentBet;
         private const int DefaultStep = 10;
@@ -102,12 +103,14 @@ namespace GameScripts
         public void DecreaseBalanceAfterClick()
         {
             if(_gameLogi.IsPlaying) return;
+            winParticleSystem.gameObject.SetActive(false);
             _audioController.PlayAudio(_audioController.buttonPress, false);
             OnBet?.Invoke(_currentBet);
         }
 
         private void SetWinText(float winValue)
         {
+            winParticleSystem.gameObject.SetActive(true);
             this.winValue.SetText(winValue.ToString());
             ButtonRefresh();
         }

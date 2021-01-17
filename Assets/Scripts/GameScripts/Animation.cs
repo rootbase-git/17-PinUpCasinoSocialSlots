@@ -13,6 +13,8 @@ namespace GameScripts
             foreach (var slot in _pairedSlot)
             {
                 slot.Value.GetComponent<ElementInfo>().PlayAnimation(true);
+                var emission = slot.Value.GetComponentInChildren<ParticleSystem>().emission;
+                emission.enabled = true;
             }
         }
 
@@ -21,6 +23,8 @@ namespace GameScripts
             foreach (var slot in _pairedSlot)
             {
                 slot.Value.GetComponent<ElementInfo>().PlayAnimation(false);
+                var emission = slot.Value.GetComponentInChildren<ParticleSystem>().emission;
+                emission.enabled = false;
             }
             _pairedSlot.Clear();
         }

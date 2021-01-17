@@ -12,6 +12,7 @@ namespace GameScripts
         public static Action ActivateAdds;
         [FormerlySerializedAs("reel")] public SlotReel[] reels;
         public bool IsPlaying => isPlaying;
+        public ParticleSystem middlePs;
 
         private bool isPlaying;
         private const int SpinsToAds = 10;
@@ -36,6 +37,7 @@ namespace GameScripts
         private IEnumerator StartPlaying()
         {
             isPlaying = true;
+            DisableMiddleParticleSystem();
             _audioController.PlayAudio(_audioController.spinning,true);
             foreach (var individualReel in reels)
             {
@@ -60,6 +62,15 @@ namespace GameScripts
             ActivateAds();
             
             CalculateMoney?.Invoke();
+        }
+
+        private void DisableMiddleParticleSystem()
+        {
+            var emission = middlePs.emission;
+            if (emission.enabled)
+            {
+                emission.enabled = false;
+            }
         }
 
         private void ActivateAds()

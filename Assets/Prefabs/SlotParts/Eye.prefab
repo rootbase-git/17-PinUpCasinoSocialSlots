@@ -8,12 +8,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
+      propertyPath: spinElement.name
+      value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: spinPartInfo.name
       value: Eye
       objectReference: {fileID: 0}
     - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
+      propertyPath: spinElement.points
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: spinPartInfo.points
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392539091206542835, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2698887619367990945, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: m_Sprite
