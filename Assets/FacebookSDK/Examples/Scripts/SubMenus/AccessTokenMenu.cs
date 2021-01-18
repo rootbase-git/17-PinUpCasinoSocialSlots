@@ -24,7 +24,7 @@ namespace Facebook.Unity.Example
     {
         protected override void GetGui()
         {
-            if (this.Button("Refresh Access Token"))
+            if (this.Button("Refreshh Access Token"))
             {
                 FB.Mobile.RefreshCurrentAccessToken(this.HandleResult);
             }

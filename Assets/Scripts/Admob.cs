@@ -50,11 +50,11 @@ public class Admob : MonoBehaviour
 
 	private void OnEnable()
 	{
-		GameLogic.ActivateAdds += RequestBannerAd;
+		CoreLogic.ActivateAdss += RequestBannerAd;
 	}
 
 	private void OnDisable()
 	{
-		GameLogic.ActivateAdds -= RequestBannerAd;
+		CoreLogic.ActivateAdss -= RequestBannerAd;
 	}
 }

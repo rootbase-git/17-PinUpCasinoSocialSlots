@@ -6,42 +6,42 @@ using Random = UnityEngine.Random;
 
 namespace GameScripts
 {
-    public class SlotReel : MonoBehaviour 
+    public class Reel : MonoBehaviour 
     {
-        [FormerlySerializedAs("isSpinning")] public bool isSpin;
-        public static Action<GameObject> OnCenterRow;
+        [FormerlySerializedAs("isSpin")] public bool isSpinning;
+        public static Action<GameObject> OnCenter;
  
-        [FormerlySerializedAs("speed")] [SerializeField] private int slotSpeed;
-        private const float LowerSlot = -300; 
-        private const float ResetSlotY = 500;
+        [FormerlySerializedAs("slotSpeed")] [SerializeField] private int speed;
+        private const float LowerSlotPos = -300; 
+        private const float ResetSlotYPos = 500;
         private const int Zero = 0;
     
         private void Awake()
         {
-            isSpin = false;
-            slotSpeed = Random.Range(2500,3000);
+            isSpinning = false;
+            speed = Random.Range(2500,3000);
         }
 
         private void Update()
         {
-            if (!isSpin) return;
+            if (!isSpinning) return;
             //get all children from main parent
             foreach (Transform image in transform)
             {
                 var rectTransform = image.GetComponent<RectTransform>();
-                //moving slots direction and slotSpeed
-                rectTransform.Translate(Vector3.down * (Time.smoothDeltaTime * slotSpeed), Space.World);
+                //moving slots direction and speed
+                rectTransform.Translate(Vector3.down * (Time.smoothDeltaTime * speed), Space.World);
  
                 //reset image position
-                if (!(rectTransform.anchoredPosition.y <= LowerSlot)) continue;
+                if (!(rectTransform.anchoredPosition.y <= LowerSlotPos)) continue;
             
                 var imagePosition = rectTransform.anchoredPosition;
-                imagePosition = new Vector3(imagePosition.x, imagePosition.y + ResetSlotY);
+                imagePosition = new Vector3(imagePosition.x, imagePosition.y + ResetSlotYPos);
                 rectTransform.anchoredPosition = imagePosition;
             }
         }
 
-        public void SetOrigin()
+        public void SetOriginPos()
         {
             var defaultSlotsPosition = new List<int>
             {
@@ -62,7 +62,7 @@ namespace GameScripts
             
                 if (defaultSlotsPosition[rand] == Zero)
                 {
-                    OnCenterRow?.Invoke(image.gameObject);
+                    OnCenter?.Invoke(image.gameObject);
                 }
             
                 defaultSlotsPosition.RemoveAt(rand);

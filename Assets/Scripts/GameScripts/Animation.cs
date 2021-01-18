@@ -5,37 +5,37 @@ namespace GameScripts
 {
     public class Animation : MonoBehaviour
     {
-        private List<KeyValuePair<string, GameObject>> _pairedSlot = new List<KeyValuePair<string, GameObject>>();
+        private List<KeyValuePair<string, GameObject>> _pairedMidSlot = new List<KeyValuePair<string, GameObject>>();
     
-        private void Activate(List<KeyValuePair<string, GameObject>> keyValuePairs)
+        private void ActivateMid(List<KeyValuePair<string, GameObject>> keyValuePairs)
         {
-            _pairedSlot = keyValuePairs;
-            foreach (var slot in _pairedSlot)
+            _pairedMidSlot = keyValuePairs;
+            foreach (var slot in _pairedMidSlot)
             {
-                slot.Value.GetComponent<ElementInfo>().PlayAnimation(true);
+                slot.Value.GetComponent<ElementsInfo>().PlayAnimations(true);
                 var emission = slot.Value.GetComponentInChildren<ParticleSystem>().emission;
                 emission.enabled = true;
             }
         }
 
-        public void Deactivate()
+        public void DeactivateMid()
         {
-            foreach (var slot in _pairedSlot)
+            foreach (var slot in _pairedMidSlot)
             {
-                slot.Value.GetComponent<ElementInfo>().PlayAnimation(false);
+                slot.Value.GetComponent<ElementsInfo>().PlayAnimations(false);
                 var emission = slot.Value.GetComponentInChildren<ParticleSystem>().emission;
                 emission.enabled = false;
             }
-            _pairedSlot.Clear();
+            _pairedMidSlot.Clear();
         }
     
         private void OnEnable()
         {
-            BetCalculator.TriggerAnimatio += Activate;
+            BetCalculate.ActivateAnimation += ActivateMid;
         }
         private void OnDisable()
         {
-            BetCalculator.TriggerAnimatio -= Activate;
+            BetCalculate.ActivateAnimation -= ActivateMid;
         }
     }
 }

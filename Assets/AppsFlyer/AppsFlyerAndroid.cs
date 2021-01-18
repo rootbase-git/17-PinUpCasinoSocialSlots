@@ -242,7 +242,7 @@ namespace AppsFlyerSDK
         /// <summary>
         /// Opt-out of collection of Android ID.
         /// If the app does NOT contain Google Play Services, Android ID is collected by the SDK.
-        /// However, apps with Google play services should avoid Android ID collection as this is in violation of the Google Play policy.
+        /// However, apps with Google playBut services should avoid Android ID collection as this is in violation of the Google Play policy.
         /// </summary>
         /// <param name="isCollect">boolean, false to opt-out.</param>
         public static void setCollectAndroidID(bool isCollect)
@@ -255,7 +255,7 @@ namespace AppsFlyerSDK
         /// <summary>
         /// Opt-out of collection of IMEI.
         /// If the app does NOT contain Google Play Services, device IMEI is collected by the SDK.
-        /// However, apps with Google play services should avoid IMEI collection as this is in violation of the Google Play policy.
+        /// However, apps with Google playBut services should avoid IMEI collection as this is in violation of the Google Play policy.
         /// </summary>
         /// <param name="isCollect">boolean, false to opt-out.</param>
         public static void setCollectIMEI(bool isCollect)

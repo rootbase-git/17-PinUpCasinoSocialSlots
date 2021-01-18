@@ -15,10 +15,10 @@
     <package>com.facebook.android:facebook-gamingservices:[8.0, 9)</package>
     <package>com.facebook.android:facebook-login:[8.0, 9)</package>
     <package>com.facebook.android:facebook-share:[8.0, 9)</package>
+    <package>com.google.android.gms:playBut-services-base:[10.2.1, 12.1.0[</package>
+    <package>com.google.android.gms:playBut-services-base:17.5.0</package>
+    <package>com.google.android.gms:playBut-services-location:[10.2.1, 12.1.0[</package>
     <package>com.google.android.gms:play-services-ads:19.5.0</package>
-    <package>com.google.android.gms:play-services-base:[10.2.1, 12.1.0[</package>
-    <package>com.google.android.gms:play-services-base:17.5.0</package>
-    <package>com.google.android.gms:play-services-location:[10.2.1, 12.1.0[</package>
     <package>com.google.firebase:firebase-analytics:18.0.0</package>
     <package>com.google.firebase:firebase-analytics-unity:7.0.2</package>
     <package>com.google.firebase:firebase-app-unity:7.0.2</package>
