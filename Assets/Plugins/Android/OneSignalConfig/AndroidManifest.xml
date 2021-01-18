@@ -10,15 +10,15 @@
     
     <uses-sdk android:minSdkVersion="15" />
     
-    <permission android:name="com.neonboom.boo.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <uses-permission android:name="com.neonboom.boo.permission.C2D_MESSAGE" />
+    <permission android:name="gol.enwest.gam.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="gol.enwest.gam.permission.C2D_MESSAGE" />
     <application>
       <receiver
             android:name="com.onesignal.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.neonboom.boo" />
+                <category android:name="gol.enwest.gam" />
             </intent-filter>
         </receiver>
     </application>
