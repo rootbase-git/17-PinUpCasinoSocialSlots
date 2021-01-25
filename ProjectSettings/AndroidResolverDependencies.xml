@@ -41,7 +41,7 @@
     <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-instance-id-unity/7.0.2/firebase-instance-id-unity-7.0.2.pom</file>
   </files>
   <settings>
-    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
     <setting name="bundleId" value="gol.enwest.gam" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />

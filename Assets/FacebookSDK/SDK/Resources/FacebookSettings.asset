@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - NeonBoo
-    - NeonBoo://link
-    - NeonBoo://link?
+    - gwest
+    - gwest://link
+    - gwest://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1

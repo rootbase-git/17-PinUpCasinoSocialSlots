@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: 
-  privacyUrl: https://boombastic-egypt.flycricket.io/privacy.html
+  privacyUrl: https://golden-west.flycricket.io/privacy.html
   status: {fileID: 1062385034}
 --- !u!4 &166985825
 Transform:
@@ -667,8 +667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd228d678a87a674da89a73340ee2249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idApp: ca-app-pub-8398515335130404~3035748338
-  adId: ca-app-pub-8398515335130404/1479193894
+  idApp: ca-app-pub-5545402962360117~5946127912
+  adId: ca-app-pub-5545402962360117/6876066204
 --- !u!4 &180083813
 Transform:
   m_ObjectHideFlags: 0
