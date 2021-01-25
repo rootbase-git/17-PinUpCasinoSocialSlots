@@ -8,8 +8,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
+      propertyPath: spinElements.name
+      value: K
+      objectReference: {fileID: 0}
+    - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: spinPartInfo.name
       value: K
+      objectReference: {fileID: 0}
+    - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
+      propertyPath: spinElements.points
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 923087737653075675, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: spinPartInfo.points
@@ -18,10 +26,10 @@ PrefabInstance:
     - target: {fileID: 2698887619367990945, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5cc791e3617d4664ba1411c777e0468b, type: 3}
+      objectReference: {fileID: 21300000, guid: 9f52a909eeac36f4283cfbaf922cbe61, type: 3}
     - target: {fileID: 2698887620952246035, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: m_Name
-      value: K
+      value: Cherry
       objectReference: {fileID: 0}
     - target: {fileID: 2698887620952246036, guid: 13d4c0e63e47c7f44b8a0d5bb0f74603, type: 3}
       propertyPath: m_Pivot.x

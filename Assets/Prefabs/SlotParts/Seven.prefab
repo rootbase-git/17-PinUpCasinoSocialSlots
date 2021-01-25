@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 2698887619367990943}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 2698887620952246036}
   m_RootOrder: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8eb0c78d1115dd94ca9b5ea013df7f87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: abc1a5b1ef39f014eacf614ecfde1f61, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbad8c77eb753274cb0bca0f6d6ca271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinElement:
+  spinElements:
     name: Seven
     points: 5
 --- !u!1 &3233455457943422878
@@ -4966,7 +4966,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: c8e83ac4684f7564b87c1fd7a9ccae7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f85388e938d9e4599afc6d9441ed57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  m_Material: {fileID: 2100000, guid: c8e83ac4684f7564b87c1fd7a9ccae7e, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
