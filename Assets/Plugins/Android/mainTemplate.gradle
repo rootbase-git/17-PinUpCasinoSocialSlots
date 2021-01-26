@@ -52,10 +52,10 @@ dependencies {
     implementation 'com.facebook.android:facebook-gamingservices:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:9
     implementation 'com.facebook.android:facebook-login:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:7
     implementation 'com.facebook.android:facebook-share:[8.0, 9)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
+    implementation 'com.google.android.gms:playBut-services-base:[10.2.1, 12.1.0[' // Assets/OneSignal/Editor/OneSignalDependencies.xml:3
+    implementation 'com.google.android.gms:playBut-services-base:17.5.0' // Assets/Firebase/Editor/AppDependencies.xml:17
+    implementation 'com.google.android.gms:playBut-services-location:[10.2.1, 12.1.0[' // Assets/OneSignal/Editor/OneSignalDependencies.xml:5
     implementation 'com.google.android.gms:play-services-ads:19.5.0' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
-    implementation 'com.google.android.gms:play-services-base:[10.2.1, 12.1.0[' // Assets/OneSignal/Editor/OneSignalDependencies.xml:3
-    implementation 'com.google.android.gms:play-services-base:17.5.0' // Assets/Firebase/Editor/AppDependencies.xml:17
-    implementation 'com.google.android.gms:play-services-location:[10.2.1, 12.1.0[' // Assets/OneSignal/Editor/OneSignalDependencies.xml:5
     implementation 'com.google.firebase:firebase-analytics:18.0.0' // Assets/Firebase/Editor/InstanceIdDependencies.xml:15
     implementation 'com.google.firebase:firebase-analytics-unity:7.0.2' // Assets/Firebase/Editor/AnalyticsDependencies.xml:18
     implementation 'com.google.firebase:firebase-app-unity:7.0.2' // Assets/Firebase/Editor/AppDependencies.xml:22
