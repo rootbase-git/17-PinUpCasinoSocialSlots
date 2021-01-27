@@ -13,7 +13,7 @@ FirebaseApp iOS and Android Dependencies.
     </androidPackage>
     <androidPackage spec="com.google.firebase:firebase-analytics:18.0.0">
     </androidPackage>
-    <androidPackage spec="com.google.android.gms:playBut-services-base:17.5.0">
+    <androidPackage spec="com.google.android.gms:playButton-services-base:17.5.0">
     </androidPackage>
     <androidPackage spec="com.google.firebase:firebase-app-unity:7.0.2">
       <repositories>

@@ -21,7 +21,7 @@ namespace Ugi.PlayInstallReferrerPlugin
 #elif UNITY_EDITOR
             PlayInstallReferrerEditor.GetInstallReferrerInfo(callback);
 #else
-            Debug.LogError("playBut-install-referrer plugin can only be used in Android apps.");
+            Debug.LogError("playButton-install-referrer plugin can only be used in Android apps.");
 #endif
         }
     }
