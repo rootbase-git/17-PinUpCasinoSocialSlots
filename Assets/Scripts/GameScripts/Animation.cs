@@ -28,6 +28,11 @@ namespace GameScripts
             }
             _pairedMidSlot.Clear();
         }
+
+        public void ActivateFirePs()
+        {
+            
+        }
     
         private void OnEnable()
         {

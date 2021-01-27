@@ -37,6 +37,16 @@ namespace GameScripts
             AddMoney();
         }
 
+        public void MaxBet()
+        {
+            if(_coreLogic.IsPlay) return;
+            _currentBetVal = (int)_currentBalance.CurrentMone;
+            
+            Refreshh(_currentBetVal);
+            RefreshPlus();
+            
+            increaseBetButton.interactable = false;
+        }
         public void AddMoney()
         {
             if (_currentBetVal + DefaultStepVal < _currentBalance.CurrentMone)
