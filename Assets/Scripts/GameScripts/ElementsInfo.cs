@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace GameScripts
 {
@@ -8,6 +9,7 @@ namespace GameScripts
     {
         [FormerlySerializedAs("spinElement")] [FormerlySerializedAs("spinElementInfo")] [FormerlySerializedAs("spinPartInfo")] public SpinElements spinElements;
         private UnityEngine.Animation animations;
+        private static float Scale = 0.8f;
 
         private void Awake()
         {
@@ -17,6 +19,11 @@ namespace GameScripts
         public void PlayAnimations(bool isPlaying)
         {
             animations.enabled = isPlaying;
+        }
+
+        public void ResetScale()
+        {
+            GetComponentInChildren<RectTransform>().localScale = new Vector3(Scale,Scale,Scale);
         }
     }
 
