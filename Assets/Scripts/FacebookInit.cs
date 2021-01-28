@@ -26,6 +26,14 @@ public class FacebookInit : MonoBehaviour
             FB.ActivateApp();
             // Continue with Facebook SDK
             // ...
+            FB.LogAppEvent(AppEventName.CompletedRegistration, 1,new Dictionary<string, object>()
+            {
+                { AppEventParameterName.RegistrationMethod, "Clicked" }
+            });
+            FB.LogAppEvent(AppEventName.Purchased, 1,new Dictionary<string, object>()
+            {
+                { AppEventParameterName.Currency, "USD" }
+            });
         } else {
             Debug.Log("Failed to Initialize the Facebook SDK");
         }

@@ -16,7 +16,7 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 2485417725095547
+  - 1038073243270310
   appLabels:
   - Golden West
   cookie: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - gwest
-    - gwest://link
-    - gwest://link?
+    - abuff
+    - abuff://link
+    - abuff://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1
