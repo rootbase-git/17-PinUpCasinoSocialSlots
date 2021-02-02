@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 1038073243270310
+  - 414858669624047
   appLabels:
-  - Golden West
+  - Dragon's gold
   cookie: 1
   logging: 1
   status: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - abuff
-    - abuff://link
-    - abuff://link?
+    - dgold
+    - dgold://link
+    - dgold://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1
