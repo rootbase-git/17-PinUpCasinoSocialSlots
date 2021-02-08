@@ -403,7 +403,6 @@ public class DataFetcher : MonoBehaviour
                     trackLink += $"{pair.Key}={queryMap[pair.Key]}";
                     index++;
                 }
-                Debug.Log(trackLink);
                 UnityMainThreadDispatcher.Instance().Enqueue(SaveTrackLink(trackLink, linkGeneratedCallback));
             });
         });
