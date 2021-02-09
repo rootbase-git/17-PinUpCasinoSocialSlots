@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 414858669624047
+  - 848507209328119
   appLabels:
-  - Dragon's gold
+  - 
   cookie: 1
   logging: 1
   status: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - dgold
-    - dgold://link
-    - dgold://link?
+    - jgam
+    - jgam://link
+    - jgam://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1

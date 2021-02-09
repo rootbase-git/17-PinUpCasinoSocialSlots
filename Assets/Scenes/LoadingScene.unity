@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11457290, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: ApiKey
-      value: 17eea357-7f48-4a6b-b3f1-d9151f6e25af
+      value: 7fef4ead-7d61-4c6b-bb31-5ded54e0991f
       objectReference: {fileID: 0}
     - target: {fileID: 11457290, guid: 1edb7f7d5ea68467097decc77664b28d, type: 3}
       propertyPath: LocationTracking
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _appsFlyer: {fileID: 2143191757}
-  cloUrl: https://integr-testing.site/apps_v2/checker/?bundle=com.dgam.gold
+  cloUrl: https://integr-testing.site/apps_v2/checker/?bundle=com.jgam.joer
 --- !u!4 &1789482359
 Transform:
   m_ObjectHideFlags: 0
@@ -1044,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: devKey
-      value: S6nVQThHghZaF26bkckSmU
+      value: Kew3KjsRx9HTHhKwV38wEX
       objectReference: {fileID: 0}
     - target: {fileID: 4405976200006927252, guid: b21e7cfb6e3b74beb86e2b533904e395, type: 3}
       propertyPath: isDebug

@@ -16,33 +16,15 @@
     <package>com.facebook.android:facebook-login:[8.0, 9)</package>
     <package>com.facebook.android:facebook-share:[8.0, 9)</package>
     <package>com.google.android.gms:playBut-services-base:[10.2.1, 12.1.0[</package>
-    <package>com.google.android.gms:playBut-services-base:17.5.0</package>
     <package>com.google.android.gms:playBut-services-location:[10.2.1, 12.1.0[</package>
     <package>com.google.android.gms:play-services-ads:19.5.0</package>
-    <package>com.google.firebase:firebase-analytics:18.0.0</package>
-    <package>com.google.firebase:firebase-analytics-unity:7.0.2</package>
-    <package>com.google.firebase:firebase-app-unity:7.0.2</package>
-    <package>com.google.firebase:firebase-common:19.3.1</package>
-    <package>com.google.firebase:firebase-iid:21.0.0</package>
-    <package>com.google.firebase:firebase-installations:16.3.3</package>
-    <package>com.google.firebase:firebase-installations-unity:7.0.2</package>
-    <package>com.google.firebase:firebase-instance-id-unity:7.0.2</package>
     <package>com.google.firebase:firebase-messaging:[10.2.1, 12.1.0[</package>
     <package>com.parse.bolts:bolts-android:1.4.0</package>
   </packages>
-  <files>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/7.0.2/firebase-analytics-unity-7.0.2.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/7.0.2/firebase-analytics-unity-7.0.2.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/7.0.2/firebase-app-unity-7.0.2.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/7.0.2/firebase-app-unity-7.0.2.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-installations-unity/7.0.2/firebase-installations-unity-7.0.2.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-installations-unity/7.0.2/firebase-installations-unity-7.0.2.pom</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-instance-id-unity/7.0.2/firebase-instance-id-unity-7.0.2.aar</file>
-    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-instance-id-unity/7.0.2/firebase-instance-id-unity-7.0.2.pom</file>
-  </files>
+  <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
-    <setting name="bundleId" value="com.dgam.gold" />
+    <setting name="bundleId" value="com.jgam.joer" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="True" />
