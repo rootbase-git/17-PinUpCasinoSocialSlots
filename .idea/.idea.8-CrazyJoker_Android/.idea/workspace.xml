@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b1ce8c40-d41a-4f04-b4af-77d667ae2021" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.8-CrazyJoker_Android/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.8-CrazyJoker_Android/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AppsFlyer/AppsFlyerObjectScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AppsFlyer/AppsFlyerObjectScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Android/OneSignalConfig/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Android/OneSignalConfig/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Android/mainTemplate.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Android/mainTemplate.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataFetcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataFetcher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/AndroidResolverDependencies.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/AndroidResolverDependencies.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +22,7 @@
         <option value="$PROJECT_DIR$/Assets/Plugins/Android/mainTemplate.gradle" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DataFetcher.cs" />
         <option value="$PROJECT_DIR$/Assets/AppsFlyer/AppsFlyerObjectScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Plugins/Android/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -68,6 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1613041001470</updated>
       <workItem from="1613041018205" duration="511000" />
+      <workItem from="1613044541396" duration="641000" />
     </task>
     <servers />
   </component>
