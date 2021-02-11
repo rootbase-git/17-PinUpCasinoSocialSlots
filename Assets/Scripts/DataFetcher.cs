@@ -212,6 +212,12 @@ public class DataFetcher : MonoBehaviour
         {
             if (GetTrackLink() != null) return;            
 
+            if (conversionData == null)
+            {
+                trackLinkCallback(null);
+                return;
+            }
+            
             if (conversionData.ContainsKey("media_source"))
             {
                 if (mediaSources != null)

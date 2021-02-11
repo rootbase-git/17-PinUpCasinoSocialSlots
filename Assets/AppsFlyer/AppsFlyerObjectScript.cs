@@ -31,14 +31,7 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
 
     public void GetConversionData(Action<Dictionary<string, object>> callback)
     {
-        if (conversionDataDictionary != null)
-        {
-            callback(conversionDataDictionary);
-        }
-        else
-        {
-            conversionDataCallback = callback;
-        }
+        callback(conversionDataDictionary);
     }
 
     // Mark AppsFlyer CallBacks
