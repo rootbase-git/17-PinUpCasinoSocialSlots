@@ -23,6 +23,7 @@ namespace GameScripts
         {
             _audioController = FindObjectOfType<AudioController>();
             isPlay = false;
+            Screen.orientation = ScreenOrientation.Landscape;
         }
 #if UNITY_EDITOR     
         private void Update ()

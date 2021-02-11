@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1ce8c40-d41a-4f04-b4af-77d667ae2021" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.8-CrazyJoker_Android/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.8-CrazyJoker_Android/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameScripts/CoreLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameScripts/CoreLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +14,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameScripts/CoreLogic.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DataFetcher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/AppsFlyer/AppsFlyerObjectScript.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -23,6 +25,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/DataFetcher.cs" />
         <option value="$PROJECT_DIR$/Assets/AppsFlyer/AppsFlyerObjectScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Plugins/Android/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameScripts/CoreLogic.cs" />
       </list>
     </option>
   </component>
@@ -65,6 +68,7 @@
       <updated>1613041001470</updated>
       <workItem from="1613041018205" duration="511000" />
       <workItem from="1613044541396" duration="641000" />
+      <workItem from="1613048544945" duration="20000" />
     </task>
     <servers />
   </component>
