@@ -16,7 +16,7 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 848507209328119
+  - 999755680550162
   appLabels:
   - 
   cookie: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - jgam
-    - jgam://link
-    - jgam://link?
+    - eleg
+    - eleg://link
+    - eleg://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1
