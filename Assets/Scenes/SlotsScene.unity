@@ -469,12 +469,20 @@ PrefabInstance:
       value: CFX4 Aura Bubble C
       objectReference: {fileID: 0}
     - target: {fileID: 198314808193956702, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 198314808193956702, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
       propertyPath: InitialModule.startColor.maxColor.a
       value: 0.53333336
       objectReference: {fileID: 0}
     - target: {fileID: 198314808193956702, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
       propertyPath: InitialModule.startColor.minColor.a
       value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 198601255114733596, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 198601255114733596, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
       propertyPath: InitialModule.startColor.maxColor.a
@@ -629,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: 
-  privacyUrl: https://crazy-joker.flycricket.io/privacy.html
+  privacyUrl: https://egypt-legacy.flycricket.io/privacy.html
   status: {fileID: 1062385034}
 --- !u!4 &166985825
 Transform:
@@ -674,8 +682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd228d678a87a674da89a73340ee2249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idApp: ca-app-pub-4008336010722671~4397763019
-  adId: ca-app-pub-4008336010722671/9897501705
+  idApp: ca-app-pub-4523014528360258~7010434160
+  adId: ca-app-pub-4523014528360258/7750361265
 --- !u!4 &180083813
 Transform:
   m_ObjectHideFlags: 0
@@ -2597,7 +2605,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 415, y: 25}
-  m_SizeDelta: {x: 100, y: 50}
+  m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1674267417
 MonoBehaviour:
