@@ -11,24 +11,24 @@
       </intent-filter>
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-      <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-4523014528360258~7010434160" />
+      <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-1708988303974021~5793856737" />
     </activity>
     <activity android:name="com.facebook.unity.FBUnityGamingServicesFriendFinderActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     <activity android:name="com.facebook.unity.FBUnityAppLinkActivity" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="eleg" />
+        <data android:scheme="nwolf" />
       </intent-filter>
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="eleg://link" />
+        <data android:scheme="nwolf://link" />
       </intent-filter>
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="eleg://link?" />
+        <data android:scheme="nwolf://link?" />
       </intent-filter>
     </activity>
     <receiver android:name="com.onesignal.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
@@ -41,10 +41,10 @@
     <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />
     <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />
     <activity android:name="com.facebook.unity.FBUnityGameRequestActivity" />
-    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb999755680550162" />
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb224207219412821" />
     <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="true" />
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="true" />
-    <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider999755680550162" android:exported="true" />
+    <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider224207219412821" android:exported="true" />
     <activity android:name="com.facebook.unity.FBUnityLoginActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     <activity android:name="com.facebook.unity.FBUnityDialogsActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
   </application>

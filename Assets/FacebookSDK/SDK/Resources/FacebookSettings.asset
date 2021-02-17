@@ -16,7 +16,7 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 999755680550162
+  - 224207219412821
   appLabels:
   - 
   cookie: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - eleg
-    - eleg://link
-    - eleg://link?
+    - nwolf
+    - nwolf://link
+    - nwolf://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1

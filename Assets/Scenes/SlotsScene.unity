@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: 
-  privacyUrl: https://egypt-legacy.flycricket.io/privacy.html
+  privacyUrl: https://north-wolf.flycricket.io/privacy.html
   status: {fileID: 1062385034}
 --- !u!4 &166985825
 Transform:
@@ -682,8 +682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd228d678a87a674da89a73340ee2249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idApp: ca-app-pub-4523014528360258~7010434160
-  adId: ca-app-pub-4523014528360258/7750361265
+  idApp: ca-app-pub-1708988303974021~5793856737
+  adId: ca-app-pub-1708988303974021/4480775068
 --- !u!4 &180083813
 Transform:
   m_ObjectHideFlags: 0
