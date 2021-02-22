@@ -31,7 +31,14 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
 
     public void GetConversionData(Action<Dictionary<string, object>> callback)
     {
-        callback(conversionDataDictionary);
+        if (conversionDataDictionary != null)
+        {
+            callback(conversionDataDictionary);
+        }
+        else
+        {
+            conversionDataCallback = callback;
+        }
     }
 
     // Mark AppsFlyer CallBacks
@@ -48,6 +55,7 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     {
         if(isDebug)
             AppsFlyer.AFLog("didReceiveConversionDataWithError", error);
+        conversionDataCallback?.Invoke(null);
     }
 
     public void onAppOpenAttribution(string attributionData)
@@ -62,5 +70,7 @@ public class AppsFlyerObjectScript : MonoBehaviour , IAppsFlyerConversionData
     {
         if(isDebug)
             AppsFlyer.AFLog("onAppOpenAttributionFailure", error);
+        
+        conversionDataCallback?.Invoke(null);
     }
 }
