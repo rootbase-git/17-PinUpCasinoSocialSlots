@@ -15,16 +15,16 @@
     <package>com.facebook.android:facebook-gamingservices:[8.0, 9)</package>
     <package>com.facebook.android:facebook-login:[8.0, 9)</package>
     <package>com.facebook.android:facebook-share:[8.0, 9)</package>
+    <package>com.google.android.gms:play-services-ads:19.5.0</package>
     <package>com.google.android.gms:play-services-base:[10.2.1, 12.1.0[</package>
     <package>com.google.android.gms:play-services-location:[10.2.1, 12.1.0[</package>
-    <package>com.google.android.gms:play-services-ads:19.5.0</package>
     <package>com.google.firebase:firebase-messaging:[10.2.1, 12.1.0[</package>
     <package>com.parse.bolts:bolts-android:1.4.0</package>
   </packages>
   <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
-    <setting name="bundleId" value="com.dcgam.dcave" />
+    <setting name="bundleId" value="com.pcaslot.pucss" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="True" />
