@@ -16,7 +16,7 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 240687084268867
+  - 470627524315915
   appLabels:
   - 
   cookie: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   iosURLSuffix: 
   appLinkSchemes:
   - list:
-    - dcave
-    - dcave://link
-    - dcave://link?
+    - pinup
+    - pinup://link
+    - pinup://link?
   uploadAccessToken: 
   autoLogAppEventsEnabled: 1
   advertiserIDCollectionEnabled: 1
