@@ -10,15 +10,15 @@
     
     <uses-sdk android:minSdkVersion="15" />
     
-    <permission android:name="com.dcgam.dcave.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <uses-permission android:name="com.dcgam.dcave.permission.C2D_MESSAGE" />
+    <permission android:name="com.pcaslot.pucss.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.pcaslot.pucss.permission.C2D_MESSAGE" />
     <application>
       <receiver
             android:name="com.onesignal.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.dcgam.dcave" />
+                <category android:name="com.pcaslot.pucss" />
             </intent-filter>
         </receiver>
     </application>
